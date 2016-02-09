@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    amq-protocol (2.0.1)
+    bunny (2.2.2)
+      amq-protocol (>= 2.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bunny
+
+BUNDLED WITH
+   1.10.6
