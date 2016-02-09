@@ -6,9 +6,9 @@ This will allow users focus on development rather than managing the environment.
 
 This project focuses to provide an execution platform for one-way fucntions executed on events that are pulled from a repository or a stream asynchronously on [Masachusetts Open Cloud (MOC)](https://rc.fas.harvard.edu/partnerships/massachusetts-open-cloud-moc/) with a vision to provide a synchronous two-way capabilities and package it to be deployed on any cloud that works on [OpenStack](https://www.openstack.org/).
 
-##Developers:
--Ashrith Bangi
--Naomi Joshi
--Rajul Kumar
--Rohit Kumar
--Sushant Mimani
+###Developers:
+- Ashrith Bangi
+- Naomi Joshi
+- Rajul Kumar
+- Rohit Kumar
+- Sushant Mimani
