@@ -6,6 +6,7 @@ class EventDispatcher
 	@@conn = Bunny.new(:automatically_recover => false)	
 	
 	def send_event(payload)
+		puts "sending event"
 		@@conn.start
 		channel   = @@conn.create_channel
 		queue    = channel.queue("lambda Queue")
