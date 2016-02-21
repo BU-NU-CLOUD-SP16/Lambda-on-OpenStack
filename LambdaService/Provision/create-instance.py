@@ -25,8 +25,8 @@ try:
 	flavor = nova_client.flavors.find(name="m1.medium")
 	net = nova_client.networks.find(label="test-network")
 	nics = [{'net-id': net.id}]
-	security_groups = nova_client.security_groups.find(name="SSH")
-	secgroup = [{'secgroup-id':security_groups.id}]
+	#security_groups = nova_client.security_groups.find(name="SSH")
+	#secgroup = [{'secgroup-id':security_groups.id}]
 	
 	instance = nova_client.servers.create(name="vm2", image=image,
 	flavor=flavor, nics=nics,key_name="mykey",security_groups=["SSH"])
