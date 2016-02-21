@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pika
+import simplejson as json
 from validator import Validator
 from orchestrator import Estrator
 
@@ -17,11 +18,15 @@ channel = connection.channel()
 channel.queue_declare(queue='lambda Queue')
 
 def callback(ch, method, properties, body):
+	
     if body is None:
     	print("Error: Empty event Received")	
     else:	
     	if validator.validatePayload(body):
-    		print(" [x] Received %r" % body)
+    		stringData = str(body)
+    		jsonData = json.loads(stringData.replace("=>", ":"))
+    		payload = jsonData
+    		print(" [x] Received %r" % payload)
     		print("starting provisioning of machines.")
     		orch.createProvisioningEnvironment(body)
 

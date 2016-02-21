@@ -1,5 +1,6 @@
 
 require "./../Queueing/EventDispatcher"
+require "json"
 
 class EventOrchestrator
 
@@ -14,7 +15,16 @@ class EventOrchestrator
 		varargs.each do |item|
 			data = data.merge!({"item" => "item"})
 		end
-		payload = "new payload"  
+		p = '{ 
+			    "event_data":{ "type":"FileCreate", "metadat_type":"filename", "filename":"test.txt" }, 
+			    "user_name":"naomi", 
+			    "event_source":"S1"}'
+		data  = JSON.parse(p)
+		payload = data.to_s()
+		payload
 		# {"eventName" => args, "data"=> data}
 	end
 end
+
+
+

@@ -29,4 +29,4 @@ end
 
 s = FileCreateService.new()
 
-s.create_file("test", "")
+s.create_file("test.txt", "")
