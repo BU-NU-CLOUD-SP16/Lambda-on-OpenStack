@@ -18,7 +18,7 @@ def deploy_and_execute():
 	nova_client=get_nova_client()
 	server = nova_client.servers.find(name="vm2")
 	server = server.networks["test-network"][0]
-	copy=subprocess.check_output("scp -o StrictHostKeyChecking=no  helloworld.py "+USERNAME+"@"+server+":~",shell=True)
+	copy=subprocess.check_output("scp -o StrictHostKeyChecking=no helloworld.py "+USERNAME+"@"+server+":~",shell=True)
 	perm=subprocess.check_output("ssh -o StrictHostKeyChecking=no "+USERNAME+"@"+server+" 'chmod 711 ~/helloworld.py'",shell=True)
 	run=subprocess.check_output("ssh -o StrictHostKeyChecking=no "+USERNAME+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log < /dev/null > std.out 2> std.err &"+"'",shell=True)
 
