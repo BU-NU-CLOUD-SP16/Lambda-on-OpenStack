@@ -34,7 +34,7 @@ try:
 	time.sleep(5)
 	print("List of VMs")
 	server=nova_client.servers.find(name="vm2")
-	print(server.addr)
+#	print(server.addr)
 	print(nova_client.servers.list())
 
 finally:
