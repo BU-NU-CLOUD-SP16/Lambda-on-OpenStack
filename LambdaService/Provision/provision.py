@@ -20,7 +20,7 @@ def create_instance():
                 	with open(os.path.expanduser('/home/ubuntu/.ssh/id_rsa.pub')) as fpubkey:
                         	nova_client.keypairs.create(name="mykey", public_key=fpubkey.read())
         	print(nova_client.servers.list())
-		image = nova_client.images.find(name="Centos 7")
+		    image = nova_client.images.find(name="Centos 7")
         	flavor = nova_client.flavors.find(name="m1.medium")
         	net = nova_client.networks.find(label="test-network")
         	nics = [{'net-id': net.id}]
