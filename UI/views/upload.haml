@@ -1,0 +1,29 @@
+%html
+  %body
+    %h1 File uploader!
+    %form(method="post" enctype='multipart/form-data')   
+      %input(type='text' name='UserName' placeholder='UserName')
+      %br
+      %br
+      %input(type='text' name='EventType' placeholder='EventType')
+      %br
+      %br
+      %input(type='text' name='EventSource' placeholder='EventSource')
+      %br
+      %br
+      %input(type='text' name='Memory' placeholder='Memory')
+      %br
+      %br
+      %input(type='file' name='myfile' accept= '.zip')   
+      %br
+      %br
+      %input(type='text' name = 'FileName' placeholder='FileName')    
+      %br 
+      %br
+      %select{:name => "Environment"}
+        %option{:value => "NodeJS"}NodeJS
+      %br
+      %br
+      %input(type='submit' value='Upload!')
+
+
