@@ -45,23 +45,23 @@ class Provision:
                 		self.nova_client.keypairs.create(name=KEY_NAME, public_key=fpubkey.read())
 
 #build server detail object
-	def __get_server_object_details(self):
+	def __get_server_object_details(self,server_request_object):
 		server_details ={}
-		image = self.nova_client.images.find(name=IMAGE_NAME)
-        	flavor = self.nova_client.flavors.find(name=FLAVOR_NAME)
-        	net = self.nova_client.networks.find(label=NETWORK_NAME)
-		server_details = {"image":image,"flavor":flavor,"net":net,"sec":["SSH","default"]}
+		image = self.nova_client.images.find(name=server_request_object["image_name"])
+        	flavor = self.nova_client.flavors.find(name=server_request_object["flavor_name"])
+        	net = self.nova_client.networks.find(label=server_request_object["network_name"])
+		server_details = {"image":image,"flavor":flavor,"net":net,"sec":["SSH","default"],"name":server_request_object["server_name"]}
 		return server_details
 
 
 
-	def create_instance(self):
+	def create_instance(self,server_request_object):
 		try:
         		self.__transfer_public_key()
         		print(self.nova_client.servers.list())
-			server_details = self.__get_server_object_details()
+			server_details = self.__get_server_object_details(server_request_object)
         		nics = [{'net-id': server_details["net"].id}]
-        		instance = self.nova_client.servers.create(name=SERVER_NAME, image=server_details["image"],
+        		instance = self.nova_client.servers.create(name=server_details["name"], image=server_details["image"],
         					flavor=server_details["flavor"], nics=nics,key_name=KEY_NAME,security_groups=server_details["sec"])
         		print("Sleeping for 5s after create command")
 			self.__wait_until_active(instance)
@@ -73,9 +73,9 @@ class Provision:
         		print("Execution Complete")
 
 
-	def delete_instance(self):
+	def delete_instance(self,server_name):
 		servers_list = self.nova_client.servers.list()
-		server_del = SERVER_NAME
+		server_del = server_name
 		server_exists = False
 		for s in servers_list:
     			if s.name == server_del:
@@ -90,14 +90,14 @@ class Provision:
 	
     		print("server %s deleted" % server_del)
 
-	def deploy_and_execute(self):
-		server= self.nova_client.servers.find(name=SERVER_NAME)
-		server=server.networks[NETWORK_NAME][0]
+	def deploy_and_execute(self,deploy_request_object):
+		server= self.nova_client.servers.find(name=deploy_request_object["server_name"])
+		server=server.networks[deploy_request_object["network_name"]][0]
 		print server
 		try:
-			copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no helloworld.py "+USERNAME+"@"+server+":~",shell=True)
-			perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+USERNAME+"@"+server+" 'chmod 711 ~/helloworld.py'",shell=True)
-			run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+USERNAME+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
+			copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no helloworld.py "+deploy_request_object["username"]+"@"+server+":~",shell=True)
+			perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'chmod 711 ~/helloworld.py'",shell=True)
+			run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
 			print "deployed and executed"
 		except subprocess.CalledProcessError as e:
     			output = e.output
@@ -106,7 +106,9 @@ class Provision:
 
 
 p = Provision()
-p.delete_instance()
-p.create_instance()
+p.delete_instance("vm2")
+server_request_obj = {"image_name":"Centos 7","server_name":"vm2","flavor_name":"m1.medium","network_name":"test-network"}
+p.create_instance(server_request_obj)
 time.sleep(20)
-p.deploy_and_execute()
+deploy_request_obj = {"server_name":"vm2","network_name":"test-network","username":"centos"}
+p.deploy_and_execute(deploy_request_obj)
