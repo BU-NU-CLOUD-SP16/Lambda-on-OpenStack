@@ -105,8 +105,8 @@ class Provision:
 
 
 
-# p = Provision()
-# p.delete_instance()
-# p.create_instance()
-# time.sleep(20)
-# p.deploy_and_execute()
+p = Provision()
+p.delete_instance()
+p.create_instance()
+time.sleep(20)
+p.deploy_and_execute()
