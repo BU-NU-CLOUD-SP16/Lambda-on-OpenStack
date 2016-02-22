@@ -16,11 +16,11 @@ for x in folder[0:l-2]:
     a = a+'/'+x
 print('--File path----'+a)    
 sys.path.append(a+ '/Orchestrator')
-from orchestrator import Estrator
+from orchestratorModule  import Estrator
 
 
 # helper class instantantiation
-orch = Estrator()
+orchestrator = Estrator()
 validator = Validator()
 ######
 
@@ -40,7 +40,7 @@ def callback(ch, method, properties, body):
     		payload = jsonData
     		print(" [x] Received %r" % payload)
     		print("starting provisioning of machines.")
-    		orch.createProvisioningEnvironment(body)
+    		orchestrator.createEnvironment(body)
 
 
 
