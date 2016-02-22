@@ -40,7 +40,7 @@ def callback(ch, method, properties, body):
     		payload = jsonData
     		print(" [x] Received %r" % payload)
     		print("starting provisioning of machines.")
-    		orchestrator.createEnvironment(body)
+    		orchestrator.createEnvironment(payload)
 
 
 
