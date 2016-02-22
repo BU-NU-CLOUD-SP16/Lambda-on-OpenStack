@@ -24,7 +24,7 @@ class Estrator:
 		# eventData = params["event_data"]["filename"] or ""
 		# username =  params["user_name"] or ""
 		# eventSource = params["event_source"] or ""
-		# sourceFile = identifyFunctionFor(username, eventSource, eventType)
+		sourceFile = self.__identify_function_for(username, eventSource, eventType)
 		
 		flavourName = self._get_flavour_name()
 		username = self.__get_user_name()
@@ -36,11 +36,15 @@ class Estrator:
 		provision.delete_instance(serverName)
 		provision.create_instance(server_request_object)
 		time.sleep(20)
-		deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username}
+		deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username, "function_name":sourceFile}
 		provision.deploy_and_execute(deploy_request_obj)
 
 
 # most of the functions below are placeholder functions which will be modified to contain logic for doing the job using Openstack API's
+	
+	def __identify_function_for(self):
+		return 'test.py'
+
 	def __create_network_environment(self):
 		return "test-network"
 

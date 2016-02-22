@@ -16,6 +16,7 @@ FLAVOR_NAME="m1.medium"
 NETWORK_NAME="test-network"
 SERVER_NAME="vm2"
 USERNAME="centos"
+PATH=os.getcwd()
 
 
 class Provision:
@@ -95,12 +96,22 @@ class Provision:
 		server=server.networks[deploy_request_object["network_name"]][0]
 		print server
 		try:
-			copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no helloworld.py "+deploy_request_object["username"]+"@"+server+":~",shell=True)
+			fileName = deploy_request_object["function_name"]
+			codePath = self.__get_path_name(fileName)+'/test.py'
+			copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no "+codePath+" "+deploy_request_object["username"]+"@"+server+":~",shell=True)
 			perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'chmod 711 ~/helloworld.py'",shell=True)
 			run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
 			print "deployed and executed"
 		except subprocess.CalledProcessError as e:
     			output = e.output
+
+	def __get_path_name(self, filename):
+		fileArray = filename.split("/")
+		l = len(fileArray)
+		a = ''
+		for ele in fileArray(1,l-2):
+			p = a+'/'+ele
+		return p+'/UI/uploads'	
 
 
 
