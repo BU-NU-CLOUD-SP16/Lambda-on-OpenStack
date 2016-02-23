@@ -7,7 +7,8 @@ get "/index" do
 end 
 
 post "/index" do
-    redirect '/action',303
+  username=params[:UserName]
+  redirect "/action?UserName=#{username}"
 end
 
 # Handle GET-request (Show the upload form)
@@ -16,19 +17,28 @@ get "/upload" do
 end 
 
 post "/upload" do 
-  filename=params[:FileName]
+  filename = params[:myfile][:filename]
+  fname=filename.split(".")[0]
   username=params[:UserName]
   eventtype=params[:EventType]
   eventsource=params[:EventSource]
   memory=params[:Memory]
   environment=params[:Environment]
-    File.open('uploads/' + params['myfile'][:filename], "wb") do |f|
-     f.write(params['myfile'][:tempfile].read)
-    out_file = File.new('uploads/'+"#{username}_#{filename}.csv", "w")
-    out_file.puts ("#{username},#{eventtype},#{eventsource},#{memory},#{environment}")
-    out_file.close
+  currentDir = Dir.pwd
+  if Dir.exist?("uploads/#{username}")
+      Dir.chdir("uploads/#{username}")    
+  else
+      Dir.mkdir("uploads/#{username}")
+      Dir.chdir("uploads/#{username}") 
   end
- return "The file was successfully uploaded!"
+  File.open(params['myfile'][:filename], "wb") do |f|
+    f.write(params['myfile'][:tempfile].read)
+    end
+  out_file = File.new("#{username}_#{fname}.csv", "w")
+  out_file.puts ("#{username},#{eventtype},#{eventsource},#{memory},#{environment}")
+  out_file.close
+  Dir.chdir("#{currentDir}")  
+ return "The file has been uploaded and data has been saved successfully!"
 end
 
 # Handle GET-request (Show the upload form)
@@ -39,20 +49,26 @@ end
 
 post "/action" do
   parm = params[:submit]
+  username=params[:UserName]
   case parm
   when "Upload a Function!"
-      redirect '/upload'
+    redirect "/upload?UserName=#{username}"
   when "Delete a Function!"
-      redirect '/delete'
+    redirect "/delete?UserName=#{username}"
   when "List my Functions!"
-  functionlist = []
+    username=params[:UserName]
     a = []
-    Dir.glob('uploads/'"**/*.zip").each do |item| 
-     a.push(item.split("/")[1]+ "    ")
+    if Dir.exist?("uploads/#{username}")
+      Dir.glob("uploads/#{username}/""**/*.py").each do |item| 
+        a.push(item.split("/")[2]+ "    ")
+      end
+    else
+      return "You do not have any functions!"    
     end
-return a
+  return a
+  end
 end
-end
+
 
 # Handle POST-request (Receive and save the uploaded file)
 
@@ -65,24 +81,17 @@ end
 post "/delete" do 
   filename=params[:FileName]
   username=params[:UserName]
-    File.delete('uploads/'+"#{username}_#{filename}.csv")
-    File.delete('uploads/'+"#{filename}.zip")
+  currentDir= Dir.pwd
+   if Dir.exist?("uploads/#{username}")
+    Dir.chdir("uploads/#{username}")
+   else
+     return Dir.pwd        
+  end 
+    File.delete("#{username}_#{filename}.csv")
+    File.delete("#{filename}.py")
+    Dir.chdir("#{currentDir}")
     return "File deleted successfully"
-end
+  end
 
-
-get "/list" do
-  haml :list
-end 
-
-post "/list" do
-functionlist = []
-#Find.find('uploads/') do |item|
-#  functionlist << item if item =~ /.*\.pdf$/   #username????.zip
-a = []
-Dir.glob('uploads/'"**/*.zip").each do |item| 
-  a.push(item.split("/")[1]+ "    ")
-end
-return a
-end
+ 
 

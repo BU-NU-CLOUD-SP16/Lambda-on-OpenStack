@@ -2,7 +2,8 @@
   %body
     %h1 File uploader!
     %form(method="post" enctype='multipart/form-data')   
-      %input(type='text' name='UserName' placeholder='UserName')
+      //%input(type='text' name='UserName' value='UserName')
+      %input{:type=>"text", :value=>params[:UserName], :name=>:UserName, readonly: true}
       %br
       %br
       %input(type='text' name='EventType' placeholder='EventType')
@@ -14,14 +15,14 @@
       %input(type='text' name='Memory' placeholder='Memory')
       %br
       %br
-      %input(type='file' name='myfile' accept= '.zip')   
+      %input(type='file' name='myfile' accept= '.py')   
       %br
       %br
-      %input(type='text' name = 'FileName' placeholder='FileName')    
+      //%input(type='text' name = 'FileName' placeholder='FileName')    
       %br 
       %br
       %select{:name => "Environment"}
-        %option{:value => "NodeJS"}NodeJS
+        %option{:value => "Python"}Python
       %br
       %br
       %input(type='submit' value='Upload!')
