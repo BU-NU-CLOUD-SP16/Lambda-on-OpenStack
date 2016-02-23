@@ -56,16 +56,7 @@ post "/action" do
   when "Delete a Function!"
     redirect "/delete?UserName=#{username}"
   when "List my Functions!"
-    username=params[:UserName]
-    a = []
-    if Dir.exist?("uploads/#{username}")
-      Dir.glob("uploads/#{username}/""**/*.py").each do |item| 
-        a.push(item.split("/")[2]+ "    ")
-      end
-    else
-      return "You do not have any functions!"    
-    end
-  return a
+    redirect "/list?UserName=#{username}"
   end
 end
 
@@ -93,5 +84,15 @@ post "/delete" do
     return "File deleted successfully"
   end
 
- 
-
+get "/list" do
+	username=params[:UserName]
+    a = []
+    if Dir.exist?("uploads/#{username}")
+      Dir.glob("uploads/#{username}/""**/*.py").each do |item| 
+        a.push(item.split("/")[2]+ "    ")
+      end
+    else
+      return "You do not have any functions!"    
+    end
+  return a
+end
