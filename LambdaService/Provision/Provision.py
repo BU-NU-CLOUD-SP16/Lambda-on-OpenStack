@@ -101,14 +101,26 @@ class Provision:
 			print "deployed and executed"
 		except subprocess.CalledProcessError as e:
     			output = e.output
-
+	
+	def deploy_and_execute_docker(self,deploy_request_object):
+		server= self.nova_client.servers.find(name=deploy_request_object["server_name"])
+                server=server.networks[deploy_request_object["network_name"]][0]
+                print server
+                try:
+                        copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no helloworld.py docker.sh "+deploy_request_object["username"]+"@"+server+":~",shell=True)
+			install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install docker.io'",shell=True)
+                        perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '~/./docker.sh ubuntu ~ ~/cont helloworld.py'",shell=True)
+                       # run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
+                        print "deployed and executed"
+                except subprocess.CalledProcessError as e:
+                        output = e.output	
 
 
 
 p = Provision()
 p.delete_instance("vm2")
-server_request_obj = {"image_name":"Centos 7","server_name":"vm2","flavor_name":"m1.medium","network_name":"test-network"}
+server_request_obj = {"image_name":"ubuntu-14.04","server_name":"vm2","flavor_name":"m1.medium","network_name":"test-network"}
 p.create_instance(server_request_obj)
 time.sleep(20)
-deploy_request_obj = {"server_name":"vm2","network_name":"test-network","username":"centos"}
-p.deploy_and_execute(deploy_request_obj)
+deploy_request_obj = {"server_name":"vm2","network_name":"test-network","username":"ubuntu"}
+p.deploy_and_execute_docker(deploy_request_obj)

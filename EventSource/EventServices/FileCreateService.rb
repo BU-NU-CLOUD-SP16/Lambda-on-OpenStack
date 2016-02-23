@@ -1,5 +1,5 @@
 require "./EventFire"
-require "Date"
+#require "Date"
 
 
 class FileCreateService < Event
@@ -15,9 +15,10 @@ class FileCreateService < Event
 			location = @defaultLocation
 		end
 		newFile = File.open(location+"/"+name, "w")
-		d = Date.parse(Time.now.to_s)
-		time = (d >> 1).strftime("%d/%m/%Y %H:%M")
-		newFile.write("This file is newly created at " +  time)	
+		#d = Date.parse(Time.now.to_s)
+		#time = (d >> 1).strftime("%d/%m/%Y %H:%M")
+		#newFile.write("This file is newly created at " +  time)
+		newFile.write("This file is newly created at ")	
 		create_file_event(name)
 	end
 
