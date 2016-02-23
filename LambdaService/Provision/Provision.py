@@ -106,21 +106,41 @@ class Provision:
 		server= self.nova_client.servers.find(name=deploy_request_object["server_name"])
                 server=server.networks[deploy_request_object["network_name"]][0]
                 print server
-                try:
-                        copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no helloworld.py docker.sh "+deploy_request_object["username"]+"@"+server+":~",shell=True)
-			install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install docker.io'",shell=True)
-                        perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '~/./docker.sh ubuntu ~ ~/cont helloworld.py'",shell=True)
+                try:	
+			fileName = deploy_request_object["function_name"]
+			path=os.getcwd()
+                        codePath = self.__get_path_name(path)+'/'+fileName
+			dockerPath= self.__get_docker_path(path)+'/docker.sh'
+                        copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no "+codePath+" "+ dockerPath+" "+deploy_request_object["username"]+"@"+server+":~",shell=True)
+			install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install -y docker.io'",shell=False)
+                        perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '~/./docker.sh ubuntu ~ ~/cont "+fileName+"'",shell=False)
                        # run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
                         print "deployed and executed"
                 except subprocess.CalledProcessError as e:
                         output = e.output	
 
+        def __get_path_name(self, filename):
+                fileArray = filename.split("/")
+                l = len(fileArray)
+                a = ''
+                for ele in fileArray[0:l-2]:
+                        a = a+'/'+ele
+                return a+'/UI/uploads'
+
+	def __get_docker_path(self, path):
+		prray = path.split("/")
+                l = len(prray)
+                a = ''
+                for ele in prray[0:l-1]:
+                        a = a+'/'+ele
+                return a+'/Provision'
 
 
-p = Provision()
-p.delete_instance("vm2")
-server_request_obj = {"image_name":"ubuntu-14.04","server_name":"vm2","flavor_name":"m1.medium","network_name":"test-network"}
-p.create_instance(server_request_obj)
-time.sleep(20)
-deploy_request_obj = {"server_name":"vm2","network_name":"test-network","username":"ubuntu"}
-p.deploy_and_execute_docker(deploy_request_obj)
+
+#p = Provision()
+#p.delete_instance("vm2")
+#server_request_obj = {"image_name":"ubuntu-14.04","server_name":"vm2","flavor_name":"m1.medium","network_name":"test-network"}
+#p.create_instance(server_request_obj)
+#time.sleep(20)
+#deploy_request_obj = {"server_name":"vm2","network_name":"test-network","username":"ubuntu"}
+#p.deploy_and_execute_docker(deploy_request_obj)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import time
 
 path = os.path.realpath('Provision.py')
 folder = path.split("/")
@@ -24,14 +25,13 @@ class Estrator:
 		# eventData = params["event_data"]["filename"] or ""
 		# username =  params["user_name"] or ""
 		# eventSource = params["event_source"] or ""
-		sourceFile = self.__identify_function_for(username, eventSource, eventType)
 		
 		flavourName = self._get_flavour_name()
 		username = self.__get_user_name()
 		imageName = self.__get_image_name()
 		serverName = self.__get_server_name()
 		network = self.__create_network_environment()
-
+		sourceFile = self.__identify_function_for(username)
 		server_request_object = {"username":username, "image_name":imageName, "network_name":network, "server_name":serverName,"flavor_name":flavourName}
 		provision.delete_instance(serverName)
 		provision.create_instance(server_request_object)
@@ -42,7 +42,7 @@ class Estrator:
 
 # most of the functions below are placeholder functions which will be modified to contain logic for doing the job using Openstack API's
 	
-	def __identify_function_for(self):
+	def __identify_function_for(self, username):
 		return 'test.py'
 
 	def __create_network_environment(self):
@@ -52,10 +52,10 @@ class Estrator:
 		return "vm2"
 
 	def __get_image_name(self):
-		return "Centos 7"	
+		return "ubuntu-14.04"	
 
 	def __get_user_name(self):
-		return "centos"
+		return "ubuntu"
 
 	def _get_flavour_name(self):
 		return "m1.medium"
