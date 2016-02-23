@@ -71,6 +71,7 @@ end
 # Handle POST-request (Receive and save the uploaded file)
 post "/delete" do 
   filename=params[:FileName]
+  fname=filename.split(".")[0]
   username=params[:UserName]
   currentDir= Dir.pwd
    if Dir.exist?("uploads/#{username}")
@@ -78,8 +79,8 @@ post "/delete" do
    else
      return Dir.pwd        
   end 
-    File.delete("#{username}_#{filename}.csv")
-    File.delete("#{filename}.py")
+    File.delete("#{username}_#{fname}.csv")
+    File.delete("#{fname}.py")
     Dir.chdir("#{currentDir}")
     return "File deleted successfully"
   end
