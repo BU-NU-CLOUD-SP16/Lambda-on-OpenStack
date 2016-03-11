@@ -1,0 +1,12 @@
+%html
+  %body
+    
+    %form(method="post" enctype='multipart/form-data')   
+      %input(type='text' name='FileName' placeholder='FileName')    
+      %br
+      %br
+      %input{:type=>"text", :value=>params[:UserName], :name=>:UserName, readonly: true } 
+      %br
+      %br
+      %input(type='submit' value='Submit!')
+

@@ -1,0 +1,25 @@
+%html
+  %body
+    
+    %form(method="post" enctype='multipart/form-data')   
+      %input{:type=>"text", :value=>params[:UserName], :name=>:UserName, readonly: true } &nbsp UserName
+      %br
+      %br
+      %input{:type=>"text", :value=>params[:EventType], :name=>:EventType} &nbsp EventType
+      %br
+      %br
+      %input{:type=>"text", :value=>params[:EventSource], :name=>:EventSource} &nbsp EventSource
+      %br
+      %br
+      %input{:type=>"text", :value=>params[:Memory], :name=>:Memory} &nbsp Memory
+      %br
+      %br
+      %input(type='file' name='myfile' accept= '.py')   
+      %br 
+      %br
+      %select{:name => "Environment"}
+        %option{:value => "Python"}Python
+      %br
+      %br
+      %input{:type=>"text", :value=>params[:FileName], :name=>:FileName, hidden: true} 
+      %input(type='submit' value='Submit!')
