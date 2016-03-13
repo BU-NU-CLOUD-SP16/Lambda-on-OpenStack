@@ -102,7 +102,7 @@ class Provision:
 		except subprocess.CalledProcessError as e:
     			output = e.output
 	
-	def deploy_and_execute_docker(self,deploy_request_object):
+	def deploy_and_execute_dockerBak(self,deploy_request_object):
 		server= self.nova_client.servers.find(name=deploy_request_object["server_name"])
                 server=server.networks[deploy_request_object["network_name"]][0]
                 print server
@@ -110,14 +110,40 @@ class Provision:
 			fileName = deploy_request_object["function_name"]
 			path=os.getcwd()
                         codePath = self.__get_path_name(path)+'/'+fileName
-			dockerPath= self.__get_docker_path(path)+'/docker.sh'
+
+
+
+
+			dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
                         copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no "+codePath+" "+ dockerPath+" "+deploy_request_object["username"]+"@"+server+":~",shell=True)
-			install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install -y docker.io'",shell=False)
-                        perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '~/./docker.sh ubuntu ~ ~/cont "+fileName+"'",shell=False)
+
+			# install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install -y docker.io'",shell=False)
+                        perm=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '~/./swarm_exec.sh ubuntu ~ ~/cont "+fileName+"'",shell=False)
                        # run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
                         print "deployed and executed"
                 except subprocess.CalledProcessError as e:
                         output = e.output	
+
+
+        def deploy_and_execute_docker(self,deploy_request_object):
+        # server= self.nova_client.servers.find(name=deploy_request_object["server_name"])
+  #               server=server.networks[deploy_request_object["network_name"]][0]
+  #               print server
+                try:    
+            fileName = deploy_request_object["function_name"]
+            path=os.getcwd()
+                        codePath = self.__get_path_name(path)+'/'+fileName
+
+            dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
+                        # copy=subprocess.check_output("scp -o LogLevel=quiet -o StrictHostKeyChecking=no "+codePath+" "+ dockerPath+" "+deploy_request_object["username"]+"@"+server+":~",shell=True)
+
+            # install = subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" 'sudo apt-get install -y docker.io'",shell=False)
+                        perm=subprocess.check_output("'~/./swarm_exec.sh 2 1024 "+fileName+"'", shell=False)
+                       # run=subprocess.check_output("ssh -o LogLevel=quiet -o StrictHostKeyChecking=no "+deploy_request_object["username"]+"@"+server+" '"+"DISPLAY=:0 ./helloworld.py >helloworld.log"+"'",shell=True)
+                        print "deployed and executed"
+                except subprocess.CalledProcessError as e:
+                        output = e.output   
+
 
         def __get_path_name(self, filename):
                 fileArray = filename.split("/")
