@@ -16,9 +16,9 @@ class EventOrchestrator
 			data = data.merge!({"item" => "item"})
 		end
 		p = '{ 
-			    "event_data":{ "type":"FileCreate", "metadata_type":"filename", "filename":"test.txt" }, 
+			    "event_data":{ "type":"FileCreate", "metadata_type":"filename", "filename":"credentials.py" }, 
 			    "user_name":"naomi", 
-			    "event_source":"S1"}'
+			    "event_source":"S3"}'
 		data  = JSON.parse(p)
 		payload = data.to_s()
 		payload
