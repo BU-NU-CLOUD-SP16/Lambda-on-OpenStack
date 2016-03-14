@@ -36,12 +36,12 @@ end
   	id = fs_bucket.upload_from_stream(params['myfile'][:filename], file)
   	file.close
   	result = db[:mapping].insert_one({"_id":id,
-	    "filename": filename,
-	    "username": username,
-	    "eventType": eventtype,
-	    "eventsource": eventsource,
-	    "memory": memory,
-	    "environment": environment})
+                                	    "filename": filename,
+                                	    "username": username,
+                                	    "eventType": eventtype,
+                                	    "eventsource": eventsource,
+                                	    "memory": memory,
+                                	    "environment": environment})
   return "Data Saved"  	
   end  
 end

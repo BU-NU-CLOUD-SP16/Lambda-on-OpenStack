@@ -11,9 +11,12 @@ for x in folder[0:l-2]:
     a = a+'/'+x
 print('--File path----'+a)    
 sys.path.append(a+ '/Provision')
+sys.path.append(a+ '/Database')
 from Provision import Provision
+from Database import Database
 
 provision = Provision()
+database = Database()
 
 class Estrator:
 	def createEnvironment(self, params):
@@ -26,6 +29,7 @@ class Estrator:
 		# username =  params["user_name"] or ""
 		# eventSource = params["event_source"] or ""
 		
+
 		flavourName = self._get_flavour_name()
 		username = self.__get_user_name()
 		imageName = self.__get_image_name()
@@ -33,9 +37,9 @@ class Estrator:
 		network = self.__create_network_environment()
 		sourceFile = self.__identify_function_for(username)
 		server_request_object = {"username":username, "image_name":imageName, "network_name":network, "server_name":serverName,"flavor_name":flavourName}
-		provision.delete_instance(serverName)
-		provision.create_instance(server_request_object)
-		time.sleep(20)
+		# provision.delete_instance(serverName)
+		# provision.create_instance(server_request_object)
+		# time.sleep(20)
 		deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username, "function_name":sourceFile}
 		provision.deploy_and_execute_docker(deploy_request_obj)
 
