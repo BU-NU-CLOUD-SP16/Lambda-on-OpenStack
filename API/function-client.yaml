@@ -1,0 +1,115 @@
+# Paste this into http://editor.swagger.io/#/ to render and edit the API
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Lambda on OpenStack - client API
+  description: |
+    TBD
+# host: lambda-demo.example.com
+basePath: /lambda/api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /function:
+    get:
+      parameters:
+        - name: userid
+          in: query
+          description: user performing the action
+          type: string
+          required: true
+      responses:
+        200:
+          description:  List all functions
+          schema:
+            title: Functions
+            type: array
+            items:
+              $ref: '#/definitions/Function'
+    post:
+      parameters:
+        - name: userid
+          in: query
+          description: user performing the action
+          type: string
+          required: true
+        - name: function
+          in: body
+          description: The function JSON you want to post
+          schema:
+            $ref: '#/definitions/Function'
+          required: true
+      responses:
+        200:
+          description: Make a new function
+    put:
+      parameters:
+        - name: userid
+          in: query
+          description: user performing the action
+          type: string
+          required: true
+        - name: function
+          in: body
+          description: The function JSON you want to post
+          schema:
+            $ref: '#/definitions/Function'
+          required: true
+      responses:
+        200:
+          description: Updates the function
+  /function/{functionId}:
+    get:
+      parameters:
+        - name: userid
+          in: query
+          description: user performing the action
+          type: string
+          required: true
+        - name: functionId
+          in: path
+          type: string
+          description: ID of the function
+          required: true
+      responses:
+        200:
+          description: Returns the function with specified Id
+          schema:
+            $ref: '#/definitions/Function'
+  /log:
+    get:
+      responses:
+        200:
+          description: Returns the contents of the execution log
+          schema:
+            title: Log Entries
+            type: array
+            items:
+              $ref: '#/definitions/LogEntry'
+
+
+definitions:
+  Function:
+    type: object
+    properties:
+      name:
+        type: string
+      source:
+        type: string
+      event:
+        type: string
+      implementation:
+        type: string
+  LogEntry:
+    type: object
+    properties:
+      logMessage:
+        type: string
+
+
+
