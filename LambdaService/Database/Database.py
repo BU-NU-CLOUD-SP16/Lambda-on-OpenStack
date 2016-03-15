@@ -15,6 +15,13 @@ class Database:
 	def findData(self, user, functionName, eventSource):
 		data = self.db.mapping.find({"username": user});
 		return data
+	
+	def WriteFile(self, objId, functionName):
+		fs =  GridFSBucket(self.db)
+		fileName = "/home/ubuntu/"+functionName 
+		f = open(fileName,'rwb')
+		fs.download_to_stream(objId, f)
+		# self.db.fs.chunks.find(objId)
 
 	def createFindQuery(self, params):
 		if params!=null:

@@ -39,9 +39,9 @@ class Estrator:
 		serverName = self.__get_server_name()
 		network = self.__create_network_environment()
 
-		print("func" +functionName)
-		print("user:" +username)
-		print("event"+eventSource)
+		# print("func" +functionName)
+		# print("user:" +username)
+		# print("event"+eventSource)
 
 
 		result = self.__identify_function_for(username, functionName, eventSource)
@@ -49,6 +49,7 @@ class Estrator:
 			print("not matching records found for the event.")
 		else:	
 			filename = result[0]["filename"]
+			self.__write_file_data_to_location(result[0]["_id"], filename)
 			
 			server_request_object = {"username":username, "image_name":imageName, "network_name":network, "server_name":serverName,"flavor_name":flavourName}
 			# provision.delete_instance(serverName)
@@ -62,6 +63,9 @@ class Estrator:
 	
 	def __identify_function_for(self, username, functionName, eventSource):
 		return self.database.findData(username, functionName, eventSource)
+
+	def __write_file_data_to_location(self, objId, filename):
+		return self.database.writeFile(objId, filename)
 
 	def __create_network_environment(self):
 		return "test-network"

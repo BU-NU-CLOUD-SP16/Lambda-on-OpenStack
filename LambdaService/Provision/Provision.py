@@ -131,7 +131,7 @@ class Provision:
                 path=os.getcwd()
                 codePath = self.__get_path_name(path)+'/'+fileName
                 dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
-                perm=subprocess.check_output("'./swarm_exec.sh 2 1024 "+fileName+"'", shell=False)
+                perm=subprocess.check_output("'./swarm_exec.sh "+fileName+"'", shell=False)
                 print "deployed and executed"
             except subprocess.CalledProcessError as e:
                     output = e.output   

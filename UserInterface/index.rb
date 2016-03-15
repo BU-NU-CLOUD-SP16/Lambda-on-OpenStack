@@ -18,7 +18,7 @@ get "/upload" do
 end 
 
  post "/upload" do 
-  filename = params[:myfile][:filename]
+  filename = params[:data][:filename]
   username=params[:UserName]
   eventtype=params[:EventType]
   eventsource=params[:EventSource]
@@ -32,8 +32,8 @@ end
   	return "Duplicate Function. Please retry"  	
   else
   	fs_bucket = db.database.fs(read: { mode: :secondary })
-  	file = File.open(params['myfile'][:tempfile], "r")
-  	id = fs_bucket.upload_from_stream(params['myfile'][:filename], file)
+  	file = File.open(params['data'][:tempfile], "r")
+  	id = fs_bucket.upload_from_stream(params['data'][:filename], file)
   	file.close
   	result = db[:mapping].insert_one({"_id":id,
                                 	    "filename": filename,
