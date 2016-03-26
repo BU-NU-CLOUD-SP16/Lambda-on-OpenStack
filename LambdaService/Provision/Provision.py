@@ -7,6 +7,7 @@ urllib3.contrib.pyopenssl.inject_into_urllib3()
 import time
 import subprocess
 import sys
+from subprocess import Popen,PIPE
 
 #CONSTANTS
 KEY_NAME = "moc-key"
@@ -125,14 +126,27 @@ class Provision:
                         output = e.output	
 
 
-        def deploy_and_execute_docker(self,deploy_request_object):
+        def deploy_and_execute_docker(self,deploy_request_object,log_uuid):
             try:    
+		n= 0
                 fileName = deploy_request_object["function_name"]
-                path=os.getcwd()
+                print "file::"+fileName
+		path=os.getcwd()
                 codePath = self.__get_path_name(path)+'/'+fileName
                 dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
-                perm=subprocess.check_output("'./swarm_exec.sh "+fileName+"'", shell=False)
-                print "deployed and executed"
+		print log_uuid
+                perm=subprocess.check_output(['./swarm_exec.sh',fileName,str(log_uuid)])
+		while n!=5:
+			n=n+1
+			if "resource" in perm:
+				print("sleeping for 5 seconds.")
+				time.sleep(5)
+				perm=subprocess.check_output(['./swarm_exec.sh',fileName,str(log_uuid)])
+			else:
+				print("deployed and executed.")
+				break	
+		print "++++++++++++++++++++++++++++++++"
+		print perm
             except subprocess.CalledProcessError as e:
                     output = e.output   
 

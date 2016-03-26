@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import uuid
 
 path = os.path.realpath('Provision.py')
 folder = path.split("/")
@@ -43,27 +44,32 @@ class Estrator:
 		# print("user:" +username)
 		# print("event"+eventSource)
 
-
 		result = self.__identify_function_for(username, functionName, eventSource)
 		if result.count()==0:
 			print("not matching records found for the event.")
 		else:	
 			filename = result[0]["filename"]
 			self.__write_file_data_to_location(result[0]["_id"], filename)
-			
+			log_uuid = self.__get_uuid()
+			self.__update_sequence_count(username, functionName, eventSource, log_uuid)
 			server_request_object = {"username":username, "image_name":imageName, "network_name":network, "server_name":serverName,"flavor_name":flavourName}
 			# provision.delete_instance(serverName)
 			# provision.create_instance(server_request_object)
 			# time.sleep(20)
 			deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username, "function_name":filename}
-			self.provision.deploy_and_execute_docker(deploy_request_obj)
+			self.provision.deploy_and_execute_docker(deploy_request_obj,log_uuid)
 
 
 # most of the functions below are placeholder functions which will be modified to contain logic for doing the job using Openstack API's
 	
 	def __identify_function_for(self, username, functionName, eventSource):
 		return self.database.findData(username, functionName, eventSource)
+	def __update_sequence_count(self, username, functionName, eventSource, log_uuid):
+		return self.database.updateSequenceCount(username, functionName, eventSource, log_uuid)
 
+	def __get_uuid(self):
+		return uuid.uuid4()
+		
 	def __write_file_data_to_location(self, objId, filename):
 		return self.database.writeFile(objId, filename)
 

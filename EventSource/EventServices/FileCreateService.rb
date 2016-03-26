@@ -1,7 +1,6 @@
 require "./EventFire"
 #require "Date"
 
-
 class FileCreateService < Event
 
 	@@defaultLocation = ""
@@ -24,7 +23,7 @@ class FileCreateService < Event
 
 # Include the create service event type.
 	def create_file_event(name)
-		create_event(name)
+				create_event(name)
 	end
 end
 

@@ -10,15 +10,15 @@ class EventOrchestrator
 		eventSender.send_event(payload)
 	end
 
-	def create_payload(args, *varargs)
+	def create_payload(args, varargs)
 		data = {}
 		varargs.each do |item|
 			data = data.merge!({"item" => "item"})
 		end
 		p = '{ 
-			    "event_data":{ "type":"FileCreate", "metadata_type":"filename", "filename":"credentials.py" }, 
-			    "user_name":"naomi", 
-			    "event_source":"S3"}'
+			    "event_data":{ "type":"FileCreate", "metadata_type":"filename", "filename":"sum.py"}, 
+			    "user_name":"ashrith", 
+			    "event_source":"S1"}'
 		data  = JSON.parse(p)
 		payload = data.to_s()
 		payload

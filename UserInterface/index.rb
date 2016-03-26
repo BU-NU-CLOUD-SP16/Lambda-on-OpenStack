@@ -41,7 +41,8 @@ end
                                 	    "eventType": eventtype,
                                 	    "eventsource": eventsource,
                                 	    "memory": memory,
-                                	    "environment": environment})
+                                	    "environment": environment,
+					"sequence_count":0})
   return "Data Saved"  	
   end  
 end
