@@ -16,7 +16,9 @@ class Database:
 		pass
 
 	def findData(self, user, functionName, eventSource):
+		self.__init__()
 		data = self.db.mapping.find({"username": user});
+		self.dbClient.close()
 		return data
 	
 	def writeFile(self, objId, functionName):
@@ -25,7 +27,6 @@ class Database:
 		f = open(fileName,'w+')
 		content= fs.get(objId).read()
 		f.write(content)
-		# self.db.fs.chunks.find(objId)
 
 	def createFindQuery(self, params):
 		if params!=null:
