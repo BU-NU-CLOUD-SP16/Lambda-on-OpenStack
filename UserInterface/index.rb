@@ -43,8 +43,9 @@ end
                                 	    "eventsource": eventsource,
                                 	    "memory": memory,
                                 	    "environment": environment,
-					"sequence_count":0})
-  return "Data Saved"  	
+					                            "sequence_count":0})
+  {:_id=>id, :filename=>filename, :username=>username, :eventType=>eventtype, :eventsource=>eventsource, :memory=>memory, 
+      :environment=>environment}.to_json  	
   end  
 end
 
@@ -103,7 +104,7 @@ end
 
 
 post "/updateFunc" do
-  filename = params[:myfile][:filename]
+  filename = params[:data][:filename]
   fname = params[:FileName]
   username=params[:UserName]
   eventtype=params[:EventType]
@@ -112,7 +113,7 @@ post "/updateFunc" do
   environment=params[:Environment]
   content_type :json
   db = settings.mongo_db
-  db[:mapping].find(:username => "#{username}",:filename =>"#{fname}").each do |document|
+  db[:mapping].find(:username => "#{username}",:filename =>"#{filename}").each do |document|
   db[:'fs.files'].delete_one(:_id => document[:_id])
   db[:'fs.chunks'].delete_one(:files_id => document[:_id])
   db[:mapping].delete_one(:_id => document[:_id] )
@@ -122,8 +123,8 @@ end
   #   return "Duplicate Function. Please retry"   
   # else
     fs_bucket = db.database.fs(read: { mode: :secondary })
-    file = File.open(params['myfile'][:tempfile], "r")
-    id = fs_bucket.upload_from_stream(params['myfile'][:filename], file)
+    file = File.open(params['data'][:tempfile], "r")
+    id = fs_bucket.upload_from_stream(params['data'][:filename], file)
     file.close
     result = db[:mapping].insert_one({"_id":id,
       "filename": filename,

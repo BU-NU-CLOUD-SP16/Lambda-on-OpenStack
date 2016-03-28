@@ -182,7 +182,7 @@ font-style: italic;
   </head>
   <body>
   <h1>Lambda on OpenStack - client API</h1>
-    <div class="app-desc">TBD</div>
+    <div class="app-desc">Use this API to upload Lambda function/Update your function/Delete your function and get execution logs</div>
     <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
     <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
     <div class="app-desc">Version: 1.0.0</div>
@@ -202,15 +202,27 @@ font-style: italic;
   
   
   
-  <li><a href="#functionGet"><code><span class="http-method">get</span> /function</code></a></li>
+  <li><a href="#actionGet"><code><span class="http-method">get</span> /action</code></a></li>
   
-  <li><a href="#functionPut"><code><span class="http-method">put</span> /function</code></a></li>
+  <li><a href="#actionPost"><code><span class="http-method">post</span> /action</code></a></li>
   
-  <li><a href="#functionPost"><code><span class="http-method">post</span> /function</code></a></li>
+  <li><a href="#deleteGet"><code><span class="http-method">get</span> /delete</code></a></li>
   
-  <li><a href="#functionFunctionIdGet"><code><span class="http-method">get</span> /function/{functionId}</code></a></li>
+  <li><a href="#deletePost"><code><span class="http-method">post</span> /delete</code></a></li>
   
-  <li><a href="#logGet"><code><span class="http-method">get</span> /log</code></a></li>
+  <li><a href="#indexGet"><code><span class="http-method">get</span> /index</code></a></li>
+  
+  <li><a href="#indexPost"><code><span class="http-method">post</span> /index</code></a></li>
+  
+  <li><a href="#listGet"><code><span class="http-method">get</span> /list</code></a></li>
+  
+  <li><a href="#updateFuncGet"><code><span class="http-method">get</span> /updateFunc</code></a></li>
+  
+  <li><a href="#updateFuncPost"><code><span class="http-method">post</span> /updateFunc</code></a></li>
+  
+  <li><a href="#uploadGet"><code><span class="http-method">get</span> /upload</code></a></li>
+  
+  <li><a href="#uploadPost"><code><span class="http-method">post</span> /upload</code></a></li>
   
   
   
@@ -221,13 +233,13 @@ font-style: italic;
   
   
   
-  <div class="method"><a name="functionGet"/>
+  <div class="method"><a name="actionGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /function</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">functionGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /action</code></pre></div>
+    <div class="method-summary">Options to perform (<span class="nickname">actionGet</span>)</div>
     
-    <div class="method-notes"></div>
+    <div class="method-notes">The page displays 3 submit buttons for the user tp choose from</div>
 
     
 
@@ -236,7 +248,7 @@ font-style: italic;
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
     
-      <li><code>application/json</code></li>
+      <li><code>multipart/form-data</code></li>
     
     </ul>
     
@@ -246,20 +258,13 @@ font-style: italic;
     
 
     
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; user performing the action </div>
-    </div>  <!-- field-items -->
-    
 
     
 
     
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#Function">Function</a>]
+      array[<a href="#action">action</a>]
       
     </div>
     
@@ -282,17 +287,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     
     <h4 class="field-label">200</h4>
-    List all functions
+    The form asks a user to enter his Username and click submit
     
     
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="functionPut"/>
+  <div class="method"><a name="actionPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /function</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">functionPut</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /action</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">actionPost</span>)</div>
     
     <div class="method-notes"></div>
 
@@ -303,18 +308,11 @@ font-style: italic;
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
     
-      <li><code>application/json</code></li>
+      <li><code>multipart/form-data</code></li>
     
     </ul>
     
 
-    
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">function (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; The function JSON you want to post </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -322,9 +320,9 @@ font-style: italic;
     
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">userid (required)</div>
+      <div class="param">userName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; user performing the action </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
     </div>  <!-- field-items -->
     
 
@@ -350,19 +348,19 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     
     <h4 class="field-label">200</h4>
-    Updates the function
+    Opens a new page for the user to select options to upload/update/delete a lambda function
     
     
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="functionPost"/>
+  <div class="method"><a name="deleteGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /function</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">functionPost</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /delete</code></pre></div>
+    <div class="method-summary">Function to be deleted (<span class="nickname">deleteGet</span>)</div>
     
-    <div class="method-notes"></div>
+    <div class="method-notes">The page displays 2 input fields for the user to enter the function name to be deleted</div>
 
     
 
@@ -371,82 +369,7 @@ font-style: italic;
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
     
-      <li><code>application/json</code></li>
-    
-    </ul>
-    
-
-    
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">function (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; The function JSON you want to post </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; user performing the action </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">200</h4>
-    Make a new function
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="functionFunctionIdGet"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /function/{functionId}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">functionFunctionIdGet</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">functionId (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of the function </div>
-    </div>  <!-- field-items -->
-    
-
-    
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-    
-      <li><code>application/json</code></li>
+      <li><code>multipart/form-data</code></li>
     
     </ul>
     
@@ -455,13 +378,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; user performing the action </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -469,7 +385,7 @@ font-style: italic;
     
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Function">Function</a>
+      array[<a href="#delete">delete</a>]
       
     </div>
     
@@ -492,17 +408,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     
     <h4 class="field-label">200</h4>
-    Returns the function with specified Id
+    Returns the form where a user can upload lambda funtion along with all the parameters
     
     
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="logGet"/>
+  <div class="method"><a name="deletePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /log</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">logGet</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /delete</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">deletePost</span>)</div>
     
     <div class="method-notes"></div>
 
@@ -513,7 +429,70 @@ font-style: italic;
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
     
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">fileName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the lambda file to be deleted (.py) </div><div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the person who owns the lambda function </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
       <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Displays a message after the function has been successfully deleted or an error message if the function name entered does not exist
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="indexGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /index</code></pre></div>
+    <div class="method-summary">UserName (<span class="nickname">indexGet</span>)</div>
+    
+    <div class="method-notes">The form asks a user to enter his Username and click submit</div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
     
     </ul>
     
@@ -529,7 +508,7 @@ font-style: italic;
     
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#LogEntry">LogEntry</a>]
+      array[<a href="#list">list</a>]
       
     </div>
     
@@ -552,7 +531,431 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     
     <h4 class="field-label">200</h4>
-    Returns the contents of the execution log
+    The form asks a user to enter his Username and click submit
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="indexPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /index</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">indexPost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Opens a new page for the user to select options to upload/update/delete a lambda function
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="listGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /list</code></pre></div>
+    <div class="method-summary">Return Function list (<span class="nickname">listGet</span>)</div>
+    
+    <div class="method-notes">The Function which belongs to a specific user is displayed</div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the person whose files are to be displayed </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#list">list</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Returns an array with all the functions uploaded by the user
+    
+    
+    <h4 class="field-label">0</h4>
+    Unexpected error
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="updateFuncGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /updateFunc</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">updateFuncGet</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#lambda">lambda</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Returns the form where a user can update lambda funtion along with all the parameters
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="updateFuncPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /updateFunc</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">updateFuncPost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Running environment of the lambda function </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#lambda">lambda</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Updates the function and the metadata
+    
+    
+    <h4 class="field-label">0</h4>
+    Unexpected error
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="uploadGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /upload</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">uploadGet</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#lambda">lambda</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Returns the form where a user can upload lambda funtion along with all the parameters
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="uploadPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /upload</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">uploadPost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Running environment of the lambda function </div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#lambda">lambda</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Uploads the function and the metadata
     
     
   </div> <!-- method -->
@@ -570,11 +973,23 @@ font-style: italic;
   <ol>
   
   
-    <li><a href="#Function"><code>Function</code></a></li>
+    <li><a href="#Lambda"><code>Lambda</code></a></li>
   
   
   
-    <li><a href="#LogEntry"><code>LogEntry</code></a></li>
+    <li><a href="#Delete"><code>Delete</code></a></li>
+  
+  
+  
+    <li><a href="#List"><code>List</code></a></li>
+  
+  
+  
+    <li><a href="#Action"><code>Action</code></a></li>
+  
+  
+  
+    <li><a href="#Error"><code>Error</code></a></li>
   
   
   </ol>
@@ -582,15 +997,19 @@ font-style: italic;
   
   
   <div class="model">
-    <h3 class="field-label"><a name="Function">Function</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Lambda">Lambda</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">UserName </div><div class="param-desc"><span class="param-type">String</span> </div>
       
-      <div class="param">source </div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">EventType </div><div class="param-desc"><span class="param-type">String</span> </div>
       
-      <div class="param">event </div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">EventSource </div><div class="param-desc"><span class="param-type">String</span> </div>
       
-      <div class="param">implementation </div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">Memory </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">File </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">Environment </div><div class="param-desc"><span class="param-type">String</span> </div>
       
       
     </div>  <!-- field-items -->
@@ -599,9 +1018,54 @@ font-style: italic;
   
   
   <div class="model">
-    <h3 class="field-label"><a name="LogEntry">LogEntry</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Delete">Delete</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">logMessage </div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">FileName </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">UserName </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3 class="field-label"><a name="List">List</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">UserName </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3 class="field-label"><a name="Action">Action</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">Upload the Function </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">Update the Function </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">Delete the Function </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">List all the Functions </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3 class="field-label"><a name="Error">Error</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">code </div><div class="param-desc"><span class="param-type">Integer</span> </div>
+      
+      <div class="param">message </div><div class="param-desc"><span class="param-type">String</span> </div>
+      
+      <div class="param">fields </div><div class="param-desc"><span class="param-type">String</span> </div>
       
       
     </div>  <!-- field-items -->
