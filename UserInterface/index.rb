@@ -3,6 +3,7 @@ require 'zip'
 require 'find'
 
 require 'json/ext'
+#require 'helper/FileDownloader'
 
 get "/index" do
   haml :index
@@ -135,6 +136,27 @@ end
   # end  
 end 
 
+get "/logs/:username/:sequence_count" do
+	puts "In log method"
+	db= settings.mongo_db
+	#puts "username "+params[:username]
+	#puts "sequence_count "+params[:sequence_count]
+	db[:mapping].find(:username => params[:username],:sequence_count => params[:sequence_count].to_i).each do |record|
+		#puts "record: "+record
+		if record
+			log_file = "#{record[:filename]}"+"_"+"#{record[:log_uuid]}"+".log"
+			puts "log file name: "+log_file
+			#check_and_send_file(log_file)
+			if File.exist?("../LambdaService/EventListener/#{log_file}")
+				send_file "../LambdaService/EventListener/#{log_file}", :disposition => 'attachment', :filename =>"#{log_file}"
+			else
+				return "No log file for this specific sequence"
+			end
+		else
+			return "No record for this sequence"
+		end
+	end
+end
 
 
 get "/delete" do
