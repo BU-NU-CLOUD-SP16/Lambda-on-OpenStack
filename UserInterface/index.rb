@@ -25,7 +25,6 @@ end
   eventsource=params[:EventSource]
   memory=params[:Memory]
   environment=params[:Environment]
-  currentDir = Dir.pwd
   content_type :json
   db = settings.mongo_db
   n = db[:mapping].find(:username => "#{username}",:filename =>"#{filename}").count
@@ -133,7 +132,8 @@ end
       "eventsource": eventsource,
       "memory": memory,
       "environment": environment})
-  return "Data Saved"   
+  {:_id=>id, :filename=>filename, :username=>username, :eventType=>eventtype, :eventsource=>eventsource, :memory=>memory, 
+  :environment=>environment}.to_json  
   # end  
 end 
 
