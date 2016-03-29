@@ -34,7 +34,11 @@ echo "::::::Begining Code Execution:::::::"
 OUT=sudo docker -H $MASTER exec $CONT_ID python /home/code/$FUNCTION_NAME > $FUNCTION_NAME"_"$UUID".log"
 echo $OUT
 echo "::::::Log file copying to Master::::::"
+
 scp -i /home/ubuntu/my-key.pem ubuntu@$CONT_NODE:/home/ubuntu/Lambda-on-OpenStack/LambdaService/EventListener/$FUNCTION_NAME"_"$UUID".log" /home/ubuntu/
+
+#scp -i /home/ubuntu/my-key.pem ubuntu@$CONT_NODE:/home/ubuntu/Lambda-on-OpenStack/LambdaService/EventListener/FunctionLogs/$FUNCTION_NAME"_"$UUID".log" /home/ubuntu/
+
 echo "::::::Execution ends::::::"
 
 #stop container

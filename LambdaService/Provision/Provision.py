@@ -135,16 +135,17 @@ class Provision:
                 codePath = self.__get_path_name(path)+'/'+fileName
                 dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
 		print log_uuid
-                perm=subprocess.Popen(['./swarm_exec.sh',fileName,str(log_uuid)], stdout=subprocess.PIPE) or " "
-                print("executed swarm...-----  " +  perm + "   -----")
+                perm=subprocess.Popen(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.PIPE) or " "
+		print("continue with next event after executing swarm_exec.")
+		print(perm)
+		print("perm object response print.")
 		while n!=5:
 			n=n+1
-			if perm!=None:
+			if perm.stderr!=None:
 				print("sleeping for 5 seconds.")
 				time.sleep(5)
-				print("waking up after sleep.")
-				perm=subprocess.Popen(['./swarm_exec.sh',fileName,str(log_uuid)], stdout=subprocess.PIPE) or " "
-				print("finished executing ")
+				perm=subprocess.Popen(['./swarm_exec.sh',str(fileName),str(log_uuid)], stdout=subprocess.PIPE) or " "
+				print("Retrying to provision container and execute the function."+ filename)
 			else:
 				print("deployed and executed.")
 				break	
