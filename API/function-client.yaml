@@ -36,7 +36,7 @@ paths:
         200:
           description: Opens a new page for the user to select options to upload/update/delete a lambda function
 
-  /action:
+  /action/{UserName}:
     get:
       summary:  Options to perform
       description: The page displays 3 submit buttons for the user tp choose from
@@ -51,7 +51,7 @@ paths:
     post:
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Username of the person accessing it
           type: string
           required: true
@@ -59,11 +59,11 @@ paths:
         200:
           description: Opens a new page for the user to select options to upload/update/delete a lambda function
 
-  /upload:
+  /upload/{UserName}:
     get:
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Username of the person accessing it
           type: string
           required: true
@@ -78,32 +78,32 @@ paths:
     post:
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Username of the person accessing it
           type: string
           required: true
         - name: EventType
-          in: query
+          in: path
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: EventSource
-          in: query
+          in: path
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: Memory
-          in: query
+          in: path
           description: Minimum memory requirement of the lambda function
           type: string
           required: true
         - name: data
-          in: query
+          in: path
           description: File to be uploaded
           type: string
           required: true
         - name: Environment
-          in: query
+          in: path
           description: Running environment of the lambda function
           type: string
           required: true
@@ -115,7 +115,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/lambda'
-  /delete:
+  /delete/{UserName}:
     get:
       summary:  Function to be deleted
       description: The page displays 2 input fields for the user to enter the function name to be deleted
@@ -130,12 +130,12 @@ paths:
     post:
       parameters:
         - name: FileName
-          in: query
+          in: path
           description: Name of the lambda file to be deleted (.py)
           type: string
           required: true
         - name: UserName
-          in: query
+          in: path
           description:  Name of the person who owns the lambda function
           type: string
           required: true
@@ -143,13 +143,13 @@ paths:
         200:
           description: Displays a message after the function has been successfully deleted or an error message if the function name entered does not exist
 
-  /list:
+  /list/{UserName}:
     get:
       summary:  Return Function list
       description: The Function which belongs to a specific user is displayed
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Name of the person whose files are to be displayed
           type: string
           required: true
@@ -166,11 +166,11 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
-  /updateFunc:
+  /updateFunc/{UserName}:
     get:
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Username of the person accessing it
           type: string
           required: true
@@ -185,32 +185,32 @@ paths:
     post:
       parameters:
         - name: UserName
-          in: query
+          in: path
           description: Username of the person accessing it
           type: string
           required: true
         - name: EventType
-          in: query
+          in: path
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: EventSource
-          in: query
+          in: path
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: Memory
-          in: query
+          in: path
           description: Minimum memory requirement of the lambda function
           type: string
           required: true
         - name: data
-          in: query
+          in: path
           description: File to be uploaded
           type: string
           required: true
         - name: Environment
-          in: query
+          in: path
           description: Running environment of the lambda function
           type: string
           required: true
@@ -226,6 +226,30 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+
+  /logs/{UserName}/{sequence_count}:
+    get:
+      summary:  Return log file
+      description: Returns the log file for the lambda execution
+      parameters:
+        - name: UserName
+          in: path
+          description: Username of the person accessing it
+          type: string
+          required: true
+        - name: sequence_count
+          in: path
+          description: Sequence count of the lambda function execution
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Returns the form where a user can update lambda funtion along with all the parameters
+          schema:
+            title: Upload form
+            type: array
+            items:
+              $ref: '#/definitions/lambda'
               
 definitions:
   lambda:

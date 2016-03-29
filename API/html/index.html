@@ -202,27 +202,29 @@ font-style: italic;
   
   
   
-  <li><a href="#actionGet"><code><span class="http-method">get</span> /action</code></a></li>
+  <li><a href="#actionUserNameGet"><code><span class="http-method">get</span> /action/{UserName}</code></a></li>
   
-  <li><a href="#actionPost"><code><span class="http-method">post</span> /action</code></a></li>
+  <li><a href="#actionUserNamePost"><code><span class="http-method">post</span> /action/{UserName}</code></a></li>
   
-  <li><a href="#deleteGet"><code><span class="http-method">get</span> /delete</code></a></li>
+  <li><a href="#deleteUserNameGet"><code><span class="http-method">get</span> /delete/{UserName}</code></a></li>
   
-  <li><a href="#deletePost"><code><span class="http-method">post</span> /delete</code></a></li>
+  <li><a href="#deleteUserNamePost"><code><span class="http-method">post</span> /delete/{UserName}</code></a></li>
   
   <li><a href="#indexGet"><code><span class="http-method">get</span> /index</code></a></li>
   
   <li><a href="#indexPost"><code><span class="http-method">post</span> /index</code></a></li>
   
-  <li><a href="#listGet"><code><span class="http-method">get</span> /list</code></a></li>
+  <li><a href="#listUserNameGet"><code><span class="http-method">get</span> /list/{UserName}</code></a></li>
   
-  <li><a href="#updateFuncGet"><code><span class="http-method">get</span> /updateFunc</code></a></li>
+  <li><a href="#logsUserNameSequenceCountGet"><code><span class="http-method">get</span> /logs/{UserName}/{sequence_count}</code></a></li>
   
-  <li><a href="#updateFuncPost"><code><span class="http-method">post</span> /updateFunc</code></a></li>
+  <li><a href="#updateFuncUserNameGet"><code><span class="http-method">get</span> /updateFunc/{UserName}</code></a></li>
   
-  <li><a href="#uploadGet"><code><span class="http-method">get</span> /upload</code></a></li>
+  <li><a href="#updateFuncUserNamePost"><code><span class="http-method">post</span> /updateFunc/{UserName}</code></a></li>
   
-  <li><a href="#uploadPost"><code><span class="http-method">post</span> /upload</code></a></li>
+  <li><a href="#uploadUserNameGet"><code><span class="http-method">get</span> /upload/{UserName}</code></a></li>
+  
+  <li><a href="#uploadUserNamePost"><code><span class="http-method">post</span> /upload/{UserName}</code></a></li>
   
   
   
@@ -233,11 +235,11 @@ font-style: italic;
   
   
   
-  <div class="method"><a name="actionGet"/>
+  <div class="method"><a name="actionUserNameGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /action</code></pre></div>
-    <div class="method-summary">Options to perform (<span class="nickname">actionGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /action/{UserName}</code></pre></div>
+    <div class="method-summary">Options to perform (<span class="nickname">actionUserNameGet</span>)</div>
     
     <div class="method-notes">The page displays 3 submit buttons for the user tp choose from</div>
 
@@ -293,14 +295,21 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="actionPost"/>
+  <div class="method"><a name="actionUserNamePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /action</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">actionPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /action/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">actionUserNamePost</span>)</div>
     
     <div class="method-notes"></div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -317,13 +326,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -354,11 +356,11 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="deleteGet"/>
+  <div class="method"><a name="deleteUserNameGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /delete</code></pre></div>
-    <div class="method-summary">Function to be deleted (<span class="nickname">deleteGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /delete/{UserName}</code></pre></div>
+    <div class="method-summary">Function to be deleted (<span class="nickname">deleteUserNameGet</span>)</div>
     
     <div class="method-notes">The page displays 2 input fields for the user to enter the function name to be deleted</div>
 
@@ -414,14 +416,23 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="deletePost"/>
+  <div class="method"><a name="deleteUserNamePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /delete</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">deletePost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /delete/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">deleteUserNamePost</span>)</div>
     
     <div class="method-notes"></div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">fileName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the lambda file to be deleted (.py) </div><div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the person who owns the lambda function </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -438,15 +449,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">fileName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the lambda file to be deleted (.py) </div><div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the person who owns the lambda function </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -598,14 +600,21 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="listGet"/>
+  <div class="method"><a name="listUserNameGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /list</code></pre></div>
-    <div class="method-summary">Return Function list (<span class="nickname">listGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /list/{UserName}</code></pre></div>
+    <div class="method-summary">Return Function list (<span class="nickname">listUserNameGet</span>)</div>
     
     <div class="method-notes">The Function which belongs to a specific user is displayed</div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the person whose files are to be displayed </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -622,13 +631,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the person whose files are to be displayed </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -669,14 +671,23 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="updateFuncGet"/>
+  <div class="method"><a name="logsUserNameSequenceCountGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /updateFunc</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">updateFuncGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /logs/{UserName}/{sequence_count}</code></pre></div>
+    <div class="method-summary">Return log file (<span class="nickname">logsUserNameSequenceCountGet</span>)</div>
     
-    <div class="method-notes"></div>
+    <div class="method-notes">Returns the log file for the lambda execution</div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div><div class="param">sequenceCount (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Sequence count of the lambda function execution </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -693,13 +704,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -736,14 +740,21 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="updateFuncPost"/>
+  <div class="method"><a name="updateFuncUserNameGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /updateFunc</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">updateFuncPost</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /updateFunc/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">updateFuncUserNameGet</span>)</div>
     
     <div class="method-notes"></div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -761,22 +772,82 @@ font-style: italic;
     
 
     
-    <h3 class="field-label">Query parameters</h3>
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#lambda">lambda</a>]
+      
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Returns the form where a user can update lambda funtion along with all the parameters
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="updateFuncUserNamePost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /updateFunc/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">updateFuncUserNamePost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+    <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">userName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Running environment of the lambda function </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Running environment of the lambda function </div>
     </div>  <!-- field-items -->
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+
+    
+
     
 
     
@@ -817,14 +888,21 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="uploadGet"/>
+  <div class="method"><a name="uploadUserNameGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /upload</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">uploadGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /upload/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">uploadUserNameGet</span>)</div>
     
     <div class="method-notes"></div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -841,13 +919,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div>
-    </div>  <!-- field-items -->
     
 
     
@@ -884,14 +955,31 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   
-  <div class="method"><a name="uploadPost"/>
+  <div class="method"><a name="uploadUserNamePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /upload</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">uploadPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /upload/{UserName}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">uploadUserNamePost</span>)</div>
     
     <div class="method-notes"></div>
 
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Running environment of the lambda function </div>
+    </div>  <!-- field-items -->
     
 
     
@@ -908,23 +996,6 @@ font-style: italic;
 
     
 
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">userName (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Username of the person accessing it </div><div class="param">eventType (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">eventSource (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Type of event that the lambda function responds to </div><div class="param">memory (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Minimum memory requirement of the lambda function </div><div class="param">data (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; File to be uploaded </div><div class="param">environment (required)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Running environment of the lambda function </div>
-    </div>  <!-- field-items -->
     
 
     
