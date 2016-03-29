@@ -11,7 +11,7 @@ MASTER="tcp://192.168.1.3:5001"
 
 echo "Exceuting docker swarm"
 #create container
-CONT_ID=$(sudo docker -H $MASTER create -t -v /home/ubuntu:/home/code -c 1 -m 1024m ub-python 2>&1)
+CONT_ID=$(sudo docker -H $MASTER create -t -v /home/ubuntu:/home/code -m 256m ub-python 2>&1)
  #|| echo "Exception occured")
 
 OUT=$(echo $CONT_ID | awk '{print $2}')
@@ -31,6 +31,8 @@ sudo docker -H $MASTER start $CONT_ID
 #execute function
 sudo docker -H $MASTER exec $CONT_ID apt-get install -y python
 echo "::::::Begining Code Execution:::::::"
+#sleeping to check the cluster management
+sleep 10
 OUT=sudo docker -H $MASTER exec $CONT_ID python /home/code/$FUNCTION_NAME > $FUNCTION_NAME"_"$UUID".log"
 echo $OUT
 echo "::::::Log file copying to Master::::::"
