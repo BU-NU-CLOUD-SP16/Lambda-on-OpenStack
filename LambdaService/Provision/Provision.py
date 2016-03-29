@@ -135,13 +135,16 @@ class Provision:
                 codePath = self.__get_path_name(path)+'/'+fileName
                 dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
 		print log_uuid
-                perm=subprocess.check_output(['./swarm_exec.sh',fileName,str(log_uuid)])
+                perm=subprocess.Popen(['./swarm_exec.sh',fileName,str(log_uuid)], stdout=subprocess.PIPE) or " "
+                print("executed swarm...-----  " +  perm + "   -----")
 		while n!=5:
 			n=n+1
-			if "resource" in perm:
+			if perm!=None:
 				print("sleeping for 5 seconds.")
 				time.sleep(5)
-				perm=subprocess.check_output(['./swarm_exec.sh',fileName,str(log_uuid)])
+				print("waking up after sleep.")
+				perm=subprocess.Popen(['./swarm_exec.sh',fileName,str(log_uuid)], stdout=subprocess.PIPE) or " "
+				print("finished executing ")
 			else:
 				print("deployed and executed.")
 				break	
