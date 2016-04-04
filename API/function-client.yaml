@@ -3,7 +3,7 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: Lambda on OpenStack - client API
-  description: Use this API to upload Lambda function/Update your function/Delete your function and get execution logs
+  description: Use this API to upload Lambda function/Update your function/Delete your function/Display all functions and get execution logs
 basePath: /lambda/api
 schemes:
   - http
@@ -13,18 +13,29 @@ consumes:
 produces:
   - application/json
 paths:
-  /index:
+  /lambda:
     get:
-      summary:  UserName
-      description: The form asks a user to enter his Username and click submit
+      summary:  Return Function list
+      description: The Function which belongs to a specific user is displayed
+      parameters:
+        - name: UserName
+          in: query
+          description: Name of the person whose files are to be displayed
+          type: string
+          required: true
       responses:
         200:
-          description:  The form asks a user to enter his Username and click submit
+          description: Returns a json array with all the functions uploaded by the user and metadata
           schema:
-            title: Options
+            title: List functions
             type: array
             items:
-              $ref: '#/definitions/list'
+              $ref: '#/definitions/lambda'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
     post:
       parameters:
         - name: UserName
@@ -32,78 +43,28 @@ paths:
           description: Username of the person accessing it
           type: string
           required: true
-      responses:
-        200:
-          description: Opens a new page for the user to select options to upload/update/delete a lambda function
-
-  /action/{UserName}:
-    get:
-      summary:  Options to perform
-      description: The page displays 3 submit buttons for the user tp choose from
-      responses:
-        200:
-          description:  The form asks a user to enter his Username and click submit
-          schema:
-            title: Options
-            type: array
-            items:
-              $ref: '#/definitions/action'
-    post:
-      parameters:
-        - name: UserName
-          in: path
-          description: Username of the person accessing it
-          type: string
-          required: true
-      responses:
-        200:
-          description: Opens a new page for the user to select options to upload/update/delete a lambda function
-
-  /upload/{UserName}:
-    get:
-      parameters:
-        - name: UserName
-          in: path
-          description: Username of the person accessing it
-          type: string
-          required: true
-      responses:
-        200:
-          description: Returns the form where a user can upload lambda funtion along with all the parameters
-          schema:
-            title: Upload form
-            type: array
-            items:
-              $ref: '#/definitions/lambda'
-    post:
-      parameters:
-        - name: UserName
-          in: path
-          description: Username of the person accessing it
-          type: string
-          required: true
         - name: EventType
-          in: path
+          in: query
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: EventSource
-          in: path
+          in: query
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: Memory
-          in: path
+          in: query
           description: Minimum memory requirement of the lambda function
           type: string
           required: true
         - name: data
-          in: path
+          in: query
           description: File to be uploaded
           type: string
           required: true
         - name: Environment
-          in: path
+          in: query
           description: Running environment of the lambda function
           type: string
           required: true
@@ -115,108 +76,62 @@ paths:
             type: array
             items:
               $ref: '#/definitions/lambda'
-  /delete/{UserName}:
-    get:
-      summary:  Function to be deleted
-      description: The page displays 2 input fields for the user to enter the function name to be deleted
-      responses:
-        200:
-          description: Returns the form where a user can upload lambda funtion along with all the parameters
-          schema:
-            title: Delete form
-            type: array
-            items:
-              $ref: '#/definitions/delete'
-    post:
+              
+    delete:
+      summary:  Delete a function
+      description: The function name for a specific user given in the parameters is deleted
       parameters:
         - name: FileName
-          in: path
+          in: query
           description: Name of the lambda file to be deleted (.py)
           type: string
           required: true
         - name: UserName
-          in: path
+          in: query
           description:  Name of the person who owns the lambda function
           type: string
           required: true
       responses:
         200:
           description: Displays a message after the function has been successfully deleted or an error message if the function name entered does not exist
-
-  /list/{UserName}:
-    get:
-      summary:  Return Function list
-      description: The Function which belongs to a specific user is displayed
+          
+    put:
+      summary: Update an already existing function
+      description: Updates the function and other metadata based on the input parameters UserName and Filename
       parameters:
         - name: UserName
-          in: path
-          description: Name of the person whose files are to be displayed
-          type: string
-          required: true
-      responses:
-        200:
-          description: Returns an array with all the functions uploaded by the user
-          schema:
-            title: List functions
-            type: array
-            items:
-              $ref: '#/definitions/list'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-            
-  /updateFunc/{UserName}:
-    get:
-      parameters:
-        - name: UserName
-          in: path
-          description: Username of the person accessing it
-          type: string
-          required: true
-      responses:
-        200:
-          description: Returns the form where a user can update lambda funtion along with all the parameters
-          schema:
-            title: Upload form
-            type: array
-            items:
-              $ref: '#/definitions/lambda'
-    post:
-      parameters:
-        - name: UserName
-          in: path
+          in: query
           description: Username of the person accessing it
           type: string
           required: true
         - name: EventType
-          in: path
+          in: query
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: EventSource
-          in: path
+          in: query
           description: Type of event that the lambda function responds to
           type: string
           required: true
         - name: Memory
-          in: path
+          in: query
           description: Minimum memory requirement of the lambda function
           type: string
           required: true
         - name: data
-          in: path
+          in: query
           description: File to be uploaded
           type: string
           required: true
         - name: Environment
-          in: path
+          in: query
           description: Running environment of the lambda function
           type: string
           required: true
       responses:
         200:
-          description: Updates the function and the metadata
+          description: Updates the function and the metadata and returns a json object of updated values
           schema:
             title: lambda
             type: array
@@ -227,7 +142,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /logs/{UserName}/{sequence_count}:
+  /lambda/logs/{UserName}/{sequence_count}:
     get:
       summary:  Return log file
       description: Returns the log file for the lambda execution
@@ -266,29 +181,6 @@ definitions:
       File:
         type: string
       Environment:
-        type: string
-  delete:
-    type: object
-    properties:
-      FileName:
-        type: string
-      UserName:
-        type: string
-  list:
-    type: object
-    properties:
-      UserName:
-        type: string
-  action:
-    type: object
-    properties:
-      Upload the Function:
-        type: string
-      Update the Function:
-        type: string
-      Delete the Function:
-        type: string
-      List all the Functions:
         type: string
         
   Error:
