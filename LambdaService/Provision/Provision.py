@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import thread
 from credentials import get_nova_credentials_v2
 from novaclient.client import Client
 import urllib3.contrib.pyopenssl
@@ -139,21 +140,43 @@ class Provision:
 		print("continue with next event after executing swarm_exec.")
 		print(perm.stdout)
 		print("perm object response print.")
-		while n!=5:
-			n=n+1
-			if perm.stderr!=None:
-				print("sleeping for 5 seconds.")
-				time.sleep(5)
-				perm=subprocess.Popen(['./swarm_exec.sh',str(fileName),str(log_uuid)], stdout=subprocess.PIPE) or " "
-				print("Retrying to provision container and execute the function."+ filename)
-			else:
-				print("deployed and executed.")
-				break	
-		print "++++++++++++++++++++++++++++++++"
-		print perm
-            except subprocess.CalledProcessError as e:
-                    output = e.output   
+		try:
+			thread.start_new_thread(execute_lambda, (fileName, log_uuid, ))	
+		except Exception, e:
+			print "unable to start the thread. ERROR: " + e
+		
 
+
+
+		# while n!=5:
+		# 	n=n+1
+		# 	if perm.stderr!=None:
+		# 		print("sleeping for 5 seconds.")
+		# 		time.sleep(5)
+		# 		perm=subprocess.Popen(['./swarm_exec.sh',str(fileName),str(log_uuid)], stdout=subprocess.PIPE) or " "
+		# 		print("Retrying to provision container and execute the function."+ filename)
+		# 	else:
+		# 		print("deployed and executed.")
+		# 		break	
+		# print "++++++++++++++++++++++++++++++++"
+		# print perm
+  #           except subprocess.CalledProcessError as e:
+  #                   output = e.output   
+
+        def execute_lambda(filename, log_uuid):
+        	print log_uuid
+        	perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.STDOUT)		
+        	while n!=5:
+	        	if perm.stdout==None:
+	        		print("sleeping for 5 seconds.")
+					time.sleep(5)
+	        		print("retrying to create container and execute the lambda.")
+	        		perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.STDOUT)
+	        		print(perm.stdout)
+	    		else:
+	    			print "deployed and executed the lambda function: " + fileName
+	        		print(perm.stdout)
+    		print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
         def __get_path_name(self, filename):
                 fileArray = filename.split("/")
