@@ -1,0 +1,11 @@
+ curl -i -X POST -H "Content-Type: application/json" localhost:4567/lambda -d '{"UserName":"sushant","EventSource":"S1","EventType":"FileCreate","Environment":"Python","Memory":"256","FileName":"helloworld.py"}'
+
+
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@helloworld.py" -F "UserName=sushant" localhost:4567/lambda/fileupload
+
+ curl -i -X PUT -H "Content-Type: application/json" localhost:4567/lambda -d '{"UserName":"sushant","EventSource":"S1","EventType":"FilexxxxCreate","Environment":"Python","Memory":"256","FileName":"helloworld.py"}'
+
+
+curl -i -H "Content-Type: application/json" localhost:4567/lambda/sushant
+
+curl -i -X DELETE -H "Content-Type: multipart/form-data" localhost:4567/lambda/sushant/provision.py

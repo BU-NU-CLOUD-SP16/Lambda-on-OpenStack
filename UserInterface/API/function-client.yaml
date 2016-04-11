@@ -1,0 +1,195 @@
+# Paste this into http://editor.swagger.io/#/ to render and edit the API
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Lambda on OpenStack - client API
+  description: Use this API to upload Lambda function/Update your function/Delete your function/Display all functions and get execution logs
+basePath: /lambda/api
+schemes:
+  - http
+  - https
+consumes:
+  - multipart/form-data
+produces:
+  - application/json
+paths:
+  /lambda:
+    get:
+      summary:  Return Function list
+      description: The Function which belongs to a specific user is displayed
+      parameters:
+        - name: UserName
+          in: query
+          description: Name of the person whose files are to be displayed
+          type: string
+          required: true
+      responses:
+        200:
+          description: Returns a json array with all the functions uploaded by the user and metadata
+          schema:
+            title: List functions
+            type: array
+            items:
+              $ref: '#/definitions/lambda'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+    post:
+      parameters:
+        - name: UserName
+          in: query
+          description: Username of the person accessing it
+          type: string
+          required: true
+        - name: EventType
+          in: query
+          description: Type of event that the lambda function responds to
+          type: string
+          required: true
+        - name: EventSource
+          in: query
+          description: Type of event that the lambda function responds to
+          type: string
+          required: true
+        - name: Memory
+          in: query
+          description: Minimum memory requirement of the lambda function
+          type: string
+          required: true
+        - name: data
+          in: query
+          description: File to be uploaded
+          type: string
+          required: true
+        - name: Environment
+          in: query
+          description: Running environment of the lambda function
+          type: string
+          required: true
+      responses:
+        200:
+          description: Uploads the function and the metadata
+          schema:
+            title: lambda
+            type: array
+            items:
+              $ref: '#/definitions/lambda'
+              
+    delete:
+      summary:  Delete a function
+      description: The function name for a specific user given in the parameters is deleted
+      parameters:
+        - name: FileName
+          in: query
+          description: Name of the lambda file to be deleted (.py)
+          type: string
+          required: true
+        - name: UserName
+          in: query
+          description:  Name of the person who owns the lambda function
+          type: string
+          required: true
+      responses:
+        200:
+          description: Displays a message after the function has been successfully deleted or an error message if the function name entered does not exist
+          
+    put:
+      summary: Update an already existing function
+      description: Updates the function and other metadata based on the input parameters UserName and Filename
+      parameters:
+        - name: UserName
+          in: query
+          description: Username of the person accessing it
+          type: string
+          required: true
+        - name: EventType
+          in: query
+          description: Type of event that the lambda function responds to
+          type: string
+          required: true
+        - name: EventSource
+          in: query
+          description: Type of event that the lambda function responds to
+          type: string
+          required: true
+        - name: Memory
+          in: query
+          description: Minimum memory requirement of the lambda function
+          type: string
+          required: true
+        - name: data
+          in: query
+          description: File to be uploaded
+          type: string
+          required: true
+        - name: Environment
+          in: query
+          description: Running environment of the lambda function
+          type: string
+          required: true
+      responses:
+        200:
+          description: Updates the function and the metadata and returns a json object of updated values
+          schema:
+            title: lambda
+            type: array
+            items:
+              $ref: '#/definitions/lambda'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /lambda/logs/{UserName}/{sequence_count}:
+    get:
+      summary:  Return log file
+      description: Returns the log file for the lambda execution
+      parameters:
+        - name: UserName
+          in: path
+          description: Username of the person accessing it
+          type: string
+          required: true
+        - name: sequence_count
+          in: path
+          description: Sequence count of the lambda function execution
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Returns the form where a user can update lambda funtion along with all the parameters
+          schema:
+            title: Upload form
+            type: array
+            items:
+              $ref: '#/definitions/lambda'
+              
+definitions:
+  lambda:
+    type: object
+    properties:
+      UserName:
+        type: string
+      EventType:
+        type: string
+      EventSource:
+        type: string
+      Memory:
+        type: string
+      File:
+        type: string
+      Environment:
+        type: string
+        
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
