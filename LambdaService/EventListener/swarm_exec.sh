@@ -53,5 +53,7 @@ sudo docker -H $MASTER stop $CONT_ID
 sudo docker -H $MASTER rm -f $CONT_ID
 
 else
+
 echo "ERROR:::"$CONT_ID;
+
 fi

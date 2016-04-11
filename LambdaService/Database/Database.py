@@ -35,7 +35,7 @@ class Database:
 				query[key] = params[key]
 		return query
 	def __findLatestRecord(self, user, functionName, eventSource):
-		return self.db.mapping.find({"username":user}).sort([('_id', pymongo.DESCENDING)]).limit(1)
+		return self.db.mapping.find({"username":user,"filename":functionName,"eventsource":eventSource}).sort([('_id', pymongo.DESCENDING)]).limit(1)
 	
 	def updateSequenceCount(self, user, functionName, eventSource, log_uuid):
 		record=self.__findLatestRecord(user, functionName, eventSource)
