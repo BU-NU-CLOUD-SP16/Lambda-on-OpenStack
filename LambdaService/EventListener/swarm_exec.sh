@@ -6,14 +6,16 @@
 # MEMORY = $2+"m"
 FUNCTION_NAME=$1
 UUID=$2
+MEMORY=$3
 #echo $FUNCTION_NAME
 MASTER="tcp://192.168.1.3:5001"
 
 echo "Exceuting docker swarm"
 #create container
-CONT_ID=$(sudo docker -H $MASTER create -t -v /home/ubuntu:/home/code -m 256m ub-python 2>&1)
+#CONT_ID=$(sudo docker -H $MASTER create -t -v /home/ubuntu:/home/code -m 256m ub-python 2>&1)
+CONT_ID=$(sudo docker -H $MASTER create -t -v /home/ubuntu:/home/code -m $MEMORYm ub-python 2>&1)
  #|| echo "Exception occured")
-
+echo $CONT_ID
 OUT=$(echo $CONT_ID | awk '{print $2}')
 
 if [ "$OUT" == "" ]; then

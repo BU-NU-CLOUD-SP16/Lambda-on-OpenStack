@@ -137,7 +137,7 @@ class Provision:
 		print log_uuid
                 perm=subprocess.Popen(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.PIPE) or " "
 		print("continue with next event after executing swarm_exec.")
-		print(perm)
+		print(perm.stdout)
 		print("perm object response print.")
 		while n!=5:
 			n=n+1
