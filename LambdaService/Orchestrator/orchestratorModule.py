@@ -79,5 +79,9 @@ class Estrator:
 		return "ubuntu"
 
 	def _get_flavour_name(self, memory):
-		return memory>=1000?"m1.medium":"m1.small"
+		if memory>=1000:
+			return "m1.medium"
+		else:
+			return "m1.small"
+			
 
