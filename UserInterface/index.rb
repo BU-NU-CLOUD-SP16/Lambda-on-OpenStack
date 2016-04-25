@@ -145,8 +145,7 @@ get "/logs/:username/:function_name/:event_type/:sequence_count" do
 	db[:mapping].find(:username => params[:username],
 			:sequence_count => params[:sequence_count].to_i,
 			:filename => params[:function_name], 
-			:eventtype => params[:event_type],
-			params[:event_type]).each do |record|
+			:eventtype => params[:event_type]).each do |record|
 		#puts "record: "+record
 		if record
 			log_file = "#{record[:filename]}"+"_"+"#{record[:log_uuid]}"+".log"
