@@ -11,7 +11,7 @@ class EventOrchestrator
 		data = {}
 		p = '{
                             "event_data":{ "type":"FilexxxxCreate", "metadata_type":"filename", "filename":"test.py"},
-                            "user_name":"naomi",
+                            "user_name":"testUser",
                             "event_source":"S1"}'
                 data  = JSON.parse(p)
                 payload1 = data.to_s()
