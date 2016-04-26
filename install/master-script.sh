@@ -1,4 +1,4 @@
-!#/bin/bash
+!#/bin/sh
 
 ./ruby-package-installer.sh
 ./python-package-installer.sh
