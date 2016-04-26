@@ -127,23 +127,24 @@ class Provision:
                         output = e.output	
 
 
-        def deploy_and_execute_docker(self,deploy_request_object,log_uuid):
+	def deploy_and_execute_docker(self,deploy_request_object,log_uuid):
             try:    
 		n= 0
                 fileName = deploy_request_object["function_name"]
+		memory = deploy_request_object["memory"]
                 print "file::"+fileName
 		path=os.getcwd()
                 codePath = self.__get_path_name(path)+'/'+fileName
                 dockerPath= self.__get_docker_path(path)+'/swarm_exec.sh'
 		print log_uuid
-                perm=subprocess.Popen(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.PIPE) or " "
-		print("continue with next event after executing swarm_exec.")
-		print(perm.stdout)
-		print("perm object response print.")
+                #perm=subprocess.Popen(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.PIPE) or " "
+		#print("continue with next event after executing swarm_exec.")
+		#print(perm.stdout)
+		#print("perm object response print.")
 		try:
-			thread.start_new_thread(execute_lambda, (fileName, log_uuid, ))	
+			thread.start_new_thread(self.__execute_lambda, (fileName, log_uuid, memory))	
 		except Exception, e:
-			print "unable to start the thread. ERROR: " + e
+			raise e
 		
 
 
@@ -160,25 +161,30 @@ class Provision:
 		# 		break	
 		# print "++++++++++++++++++++++++++++++++"
 		# print perm
-  #           except subprocess.CalledProcessError as e:
-  #                   output = e.output   
+            except subprocess.CalledProcessError as e:
+                   output = e.output   
 
-        def execute_lambda(filename, log_uuid):
+	def __execute_lambda(self, fileName, log_uuid, memory):
         	print log_uuid
-        	perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.STDOUT)		
-        	while n!=5:
-	        	if perm.stdout==None:
-	        		print("sleeping for 5 seconds.")
-					time.sleep(5)
+		n=0
+        	perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid), str(memory)], stderr=subprocess.STDOUT)		
+        	print perm
+		while n!=10:
+	        	if "ERROR:::" in perm:
+	        		print("sleeping for 10 seconds.")
+				time.sleep(10)
 	        		print("retrying to create container and execute the lambda.")
-	        		perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid)], stdout=subprocess.STDOUT)
-	        		print(perm.stdout)
+	        		perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid), str(memory)], stderr=subprocess.STDOUT)
+	        		#print(perm)
+				n=n+1
 	    		else:
 	    			print "deployed and executed the lambda function: " + fileName
-	        		print(perm.stdout)
+	        		print(perm)
+				n=n+1
+				break
     		print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-        def __get_path_name(self, filename):
+	def __get_path_name(self, filename):
                 fileArray = filename.split("/")
                 l = len(fileArray)
                 a = ''

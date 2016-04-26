@@ -38,6 +38,26 @@ end
 #     return JSON.generate(a)
 # end 
 # end
+get "/lambda/logs/:username/:function_name/:event_type/:sequence_count" do
+        puts "In log method"
+        db= settings.mongo_db
+        db[:mapping].find(:username => params[:username],
+                        :sequence_count => params[:sequence_count].to_i,
+                        :filename => params[:function_name],
+                        :eventType => params[:event_type]).each do |record|
+                if record
+                        log_file = "#{record[:filename]}"+"_"+"#{record[:log_uuid]}"+".log"
+                        puts "log file name: "+log_file
+                        if File.exist?("../LambdaService/EventListener/log/#{log_file}")
+                                send_file "../LambdaService/EventListener//log/#{log_file}", :disposition => 'attachment', :filename =>"#{log_file}"
+                        else
+                                return "No log file for this specific sequence"
+                        end
+                else
+                        return "No record for this sequence"
+                end
+        end
+end
 
 
  delete "/lambda/:UserName/:FileName" do
@@ -73,8 +93,8 @@ post "/lambda" do
       return "No function found for this data. Please upload function first."
     else
       db[:'fs.files'].find(:metadata => "#{username}",:filename =>"#{filename}").each do |document|
-        id = document[:_id]
-      	result = db[:mapping].insert_one({"_id": id,
+     #   id = document[:_id]
+      	result = db[:mapping].insert_one({"_id": document[:_id],
                                     	    "filename": filename,
                                     	    "username": username,
                                     	    "eventType": eventtype,
@@ -82,7 +102,7 @@ post "/lambda" do
                                     	    "memory": memory,
                                     	    "environment": environment,
     					                            "sequence_count":0})  	
-      {:_id=>id, :filename=>filename, :username=>username, :eventType=>eventtype, :eventsource=>eventsource, :memory=>memory, 
+      {:_id=>document[:_id], :filename=>filename, :username=>username, :eventType=>eventtype, :eventsource=>eventsource, :memory=>memory, 
             :environment=>environment}
       end
     end

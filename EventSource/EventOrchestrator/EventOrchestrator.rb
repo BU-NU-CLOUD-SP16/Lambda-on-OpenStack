@@ -8,6 +8,15 @@ class EventOrchestrator
 		payload= create_payload(args, varargs)
 		eventSender = EventDispatcher.new()
 		eventSender.send_event(payload)
+		data = {}
+		p = '{
+                            "event_data":{ "type":"FilexxxxCreate", "metadata_type":"filename", "filename":"test.py"},
+                            "user_name":"sushant",
+                            "event_source":"S1"}'
+                data  = JSON.parse(p)
+                payload1 = data.to_s()
+                payload1
+		eventSender.send_event(payload1)
 	end
 
 	def create_payload(args, varargs)

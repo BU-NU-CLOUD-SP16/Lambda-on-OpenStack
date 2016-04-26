@@ -40,7 +40,7 @@ class Estrator:
 			print("not matching records found for the event.")
 		else:	
 			filename = result[0]["filename"]
-			memory - result[0]["memory"]
+			memory = result[0]["memory"] or 128
 			self.__write_file_data_to_location(result[0]["_id"], filename)
 			log_uuid = self.__get_uuid()
 			self.__update_sequence_count(username, functionName, eventSource, log_uuid)
@@ -49,7 +49,7 @@ class Estrator:
 									 "network_name":network, "server_name":serverName,
 									 "flavor_name":flavourName}
 
-			deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username, "function_name":filename}
+			deploy_request_obj = {"server_name":serverName,"network_name":network,"username":username, "function_name":filename, "memory":memory}
 			self.provision.deploy_and_execute_docker(deploy_request_obj,log_uuid)
 
 

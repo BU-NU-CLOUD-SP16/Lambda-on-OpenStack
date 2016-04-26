@@ -36,11 +36,11 @@ sudo docker -H $MASTER exec $CONT_ID apt-get install -y python
 echo "::::::Begining Code Execution:::::::"
 #sleeping to check the cluster management
 sleep 10
-OUT=sudo docker -H $MASTER exec $CONT_ID python /home/code/$FUNCTION_NAME > $FUNCTION_NAME"_"$UUID".log"
+OUT=sudo docker -H $MASTER exec $CONT_ID python /home/code/$FUNCTION_NAME > ./log/$FUNCTION_NAME"_"$UUID".log"
 echo $OUT
 echo "::::::Log file copying to Master::::::"
 
-scp -i /home/ubuntu/my-key.pem ubuntu@$CONT_NODE:/home/ubuntu/Lambda-on-OpenStack/LambdaService/EventListener/$FUNCTION_NAME"_"$UUID".log" /home/ubuntu/
+#scp -i /home/ubuntu/my-key.pem ubuntu@$CONT_NODE:/home/ubuntu/Lambda-on-OpenStack/LambdaService/EventListener/$FUNCTION_NAME"_"$UUID".log" /home/ubuntu/
 
 #scp -i /home/ubuntu/my-key.pem ubuntu@$CONT_NODE:/home/ubuntu/Lambda-on-OpenStack/LambdaService/EventListener/FunctionLogs/$FUNCTION_NAME"_"$UUID".log" /home/ubuntu/
 

@@ -4,11 +4,11 @@ date
 
 #VM_NAME=child-vm-7
 VM_NAME=child-vm-$1
-CLUSTER_ID=3627ac6ad042110a08e877c0c82732e4
+CLUSTER_ID=192.168.1.3:8500
 LOOP=1
 
 #crete VM instance 
-nova boot --flavor m1-4cpu --image ubuntu-14.04 --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
+nova boot --flavor m1-4cpu --image 11a735bf-cedc-47f2-a34b-850144a29182 --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
 
 #sleep 10
 
@@ -41,33 +41,35 @@ fi
 	echo $GOAHEAD
 	echo $OUT
 	echo $VM_IP
-	sleep 5
+	sleep 2
 done
 
-sleep 10
+#sleep 10
 if [ $GOAHEAD==1 ]; then
 #send image to vm
 
-scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem /home/ubuntu/docker-image/ub-py.tar /home/ubuntu/docker-image/configVM.sh ubuntu@$VM_IP:.
+#scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem /home/ubuntu/docker-image/ub-py.tar /home/ubuntu/docker-image/configVM.sh ubuntu@$VM_IP:.
+ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@$VM_IP ./configVM.sh $CLUSTER_ID >/dev/null 2>/dev/null
 EXEC=$(echo $?)
 echo $EXEC
 while [ $EXEC -gt 0 ] 
 do
-scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem /home/ubuntu/docker-image/ub-py.tar /home/ubuntu/docker-image/configVM.sh ubuntu@$VM_IP:.
+#scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem /home/ubuntu/docker-image/ub-py.tar /home/ubuntu/docker-image/configVM.sh ubuntu@$VM_IP:.
+ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@$VM_IP ./configVM.sh $CLUSTER_ID >/dev/null 2>/dev/null
 EXEC=$(echo $?)
 echo "copy to vm:"$EXEC
-sleep 10
+sleep 1
 done
 
 #avoid strict host key check
 #ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$VM_IP "sudo apt-get update"
-ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@$VM_IP ./configVM.sh >/dev/null 2>/dev/null
+#ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@$VM_IP ./configVM.sh $CLUSTER_ID >/dev/null 2>/dev/null
 echo "vm config done"
 
-sleep 10
+#sleep 10
 
 #federate node to swarm
-sudo docker -H tcp://$VM_IP:2375 run -d swarm join --addr=$VM_IP:2375 token://$CLUSTER_ID
+sudo docker -H tcp://$VM_IP:2375 run -d swarm join --advertise=$VM_IP:2375 --heartbeat=15s --ttl=20s consul://$CLUSTER_ID
 
 echo "node added to swarm"
 

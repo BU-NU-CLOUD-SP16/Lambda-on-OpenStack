@@ -151,8 +151,8 @@ get "/logs/:username/:function_name/:event_type/:sequence_count" do
 			log_file = "#{record[:filename]}"+"_"+"#{record[:log_uuid]}"+".log"
 			puts "log file name: "+log_file
 			#check_and_send_file(log_file)
-			if File.exist?("../LambdaService/EventListener/#{log_file}")
-				send_file "../LambdaService/EventListener/#{log_file}", :disposition => 'attachment', :filename =>"#{log_file}"
+			if File.exist?("../LambdaService/EventListener/log/#{log_file}")
+				send_file "../LambdaService/EventListener//log/#{log_file}", :disposition => 'attachment', :filename =>"#{log_file}"
 			else
 				return "No log file for this specific sequence"
 			end
