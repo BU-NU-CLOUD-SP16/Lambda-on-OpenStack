@@ -9,5 +9,6 @@ apt-get install -y ruby-switch
 
 #installing gems
 gem install bundler
-bundle update --path /home/ubuntu/Lambda-On-OpenStack/UserInterface
+cat /home/ubuntu/Lambda-On-OpenStack/install/Gemfile | tr "\r" "\n" > /home/ubuntu/Lambda-On-OpenStack/install/Gemfile
+bundle update --path /home/ubuntu/Lambda-On-OpenStack/UserInterface/
 
