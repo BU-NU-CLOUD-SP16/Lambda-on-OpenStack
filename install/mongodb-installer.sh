@@ -6,4 +6,4 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo mkdir /data
 sudo mkdir /data/db
-chown ubuntu /data/db
+sudo chown ubuntu /data/db
