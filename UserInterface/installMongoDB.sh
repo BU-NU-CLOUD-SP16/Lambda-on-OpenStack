@@ -5,3 +5,4 @@ sudo apt-get install -y mongodb-org
 sudo cd /home/ubuntu
 sudo mkdir data
 sudo mkdir /data/db
+sudo mongod service start
