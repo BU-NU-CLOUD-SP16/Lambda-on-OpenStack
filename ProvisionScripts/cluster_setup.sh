@@ -6,7 +6,6 @@
  
 CHILD_VM_IP=$1        #192.168.1.106
 MASTER_SERVER_IP=$2   #192.168.1.3
-FLOATING_IP=$3        #192.168.1.192
 
 
 
@@ -20,9 +19,13 @@ sudo docker -H tcp://0.0.0.0:2375 run -d -p 8500:8500 --name=consul progrium/con
 sudo docker -H tcp://$MASTER_SERVER_IP:2375 run -d -p 5001:2375 swarm manage --strategy=binpack --advertise=$MASTER_SERVER_IP:2375 consul://$MASTER_SERVER_IP:8500
 
 
-ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@CHILD_VM_IP
-
 #join the newly created vm to the cluster
 #sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$FLOATING_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
-chmod +x consul_create.sh
-./join_node.sh $CHILD_VM_IP $MASTER_SERVER_IP $FLOATING_IP
+#scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ./join_node.sh ubuntu@$CHILD
+ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$CHILD_VM_IP sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$CHILD_VM_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
+
+#join the newly created vm to the cluster
+#sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$CHILD_NODE:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
+#chmod 770 join_node.sh
+#./join_node.sh $CHILD_VM_IP $MASTER_SERVER_IP
+>>>>>>> Setup files for initial cluster configuration and federation <Rohit>
