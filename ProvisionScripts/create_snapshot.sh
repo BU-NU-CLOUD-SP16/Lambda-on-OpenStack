@@ -4,7 +4,7 @@ LOOP=1
 VM_NAME='child-vm-0'
 nova boot --flavor m1.medium --image ubuntu-14.04 --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
 
-while [ $LOOP -gt 0 ]
+while [ $LOOP -gt 0 ] 
 do
 #ip address of instance with inst name
 #VM_IP=$(nova show $VM_NAME | awk '{ if(match((if(match($2,"net-work")) print $5 }')
@@ -56,9 +56,9 @@ ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$VM_IP ./init_
 
 echo "ssh done"
 
-nova image-create $VM_NAME test-snap
+nova image-create $VM_NAME ub-doc
 
-IMAGE_ID=nova image-list | awk '{if (match($4,"test-snap")) {id=$2}} END{print id}'
+IMAGE_ID=$(nova image-list | awk '{if (match($4,"ub-doc")) {id=$2}} END{print id}')
 
 echo "VM_IP="$VM_IP
 echo "IMAGE_ID="$IMAGE_ID

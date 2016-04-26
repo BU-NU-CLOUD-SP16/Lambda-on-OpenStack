@@ -1,13 +1,14 @@
 #!/bin/bash
 
 SLEEP=5
-declare -i VM_ID=170
+declare -i VM_ID=180
 MEMU=100
 MEMT=0
 ULIMIT=0.7
 LLIMIT=0.3
-
-
+HOST_IP=$(ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1 -d'/')
+CLUSTER_ID=$HOST_IP:8500
+echo $CLUSTER_ID
 declare -i LIMIT_TIME=15
 declare -i DURATION=0
 
@@ -16,6 +17,8 @@ declare -i i=1;
 
 PREV_STATE=" "
 STATE=" "
+
+IMAGE_ID=$(nova image-list | awk '{if (match($4,"ub-doc")) {id=$2}} END{print id}')
 
 while [ 1 == 1 ]
 do
@@ -26,9 +29,9 @@ PREV_STATE=$STATE
 STATE=$(sudo docker -H tcp://0.0.0.0:5001 info| awk -v limit="$ULIMIT" -v llimit="$LLIMIT" '
 { if(match($3,"Memory")) 
 	{memu=memu+$4; memt=memt+$7; 
-	if((memu/memt)>limit) 
+	if((memu/memt)>limit && (memu/memt)<1) 
 		{status="EXCEEDED"}  
-	else{if((memu/memt)<llimit) 
+	else{if((memu/memt)<llimit && (memu/memt)<1) 
 		{status="LOW"} 
 	else
 		{status="INLIMIT"}}}} 
@@ -37,7 +40,7 @@ STATE=$(sudo docker -H tcp://0.0.0.0:5001 info| awk -v limit="$ULIMIT" -v llimit
 
 echo 'state::'$STATE
 #declare -i i=0
-if [ $PREV_STATE != $STATE ]; then
+#if [ $PREV_STATE != $STATE ]; then
 if [ $STATE == "LOW" ]; then
 	if [ $PROVISION -gt 0 ]; then
 		if [ $LIMIT_TIME -lt $DURATION ]; then
@@ -65,14 +68,14 @@ if [ $STATE == "LOW" ]; then
 else  
 	if [ $STATE == "EXCEEDED" ]; then
         	echo "provision"
-		./provisionVM.sh $VM_ID
+		./provisionVM.sh $VM_ID $IMAGE_ID $CLUSTER_ID
 		PROVISION=$PROVISION+1
 		echo "VM_ID::"$VM_ID
 		VM_ID=$VM_ID+1
 		
 	fi 
 fi
-fi
+#fi
 echo "cycle::"$i	
 sleep $SLEEP
 i=$i+1

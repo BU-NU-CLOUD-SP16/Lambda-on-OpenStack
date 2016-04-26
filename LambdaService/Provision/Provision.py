@@ -171,8 +171,8 @@ class Provision:
         	print perm
 		while n!=10:
 	        	if "ERROR:::" in perm:
-	        		print("sleeping for 10 seconds.")
-				time.sleep(10)
+	        		print("sleeping for 15 seconds.")
+				time.sleep(15)
 	        		print("retrying to create container and execute the lambda.")
 	        		perm=subprocess.check_output(['./swarm_exec.sh',str(fileName), str(log_uuid), str(memory)], stderr=subprocess.STDOUT)
 	        		#print(perm)

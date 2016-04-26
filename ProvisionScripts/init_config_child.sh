@@ -13,3 +13,5 @@ sudo docker build -t ub-python .
 sudo stop docker
 
 sudo rm -f /etc/docker/key.json
+
+sudo docker -H tcp://0.0.0.0:2375 -d &

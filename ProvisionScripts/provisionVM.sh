@@ -4,11 +4,12 @@ date
 
 #VM_NAME=child-vm-7
 VM_NAME=child-vm-$1
-CLUSTER_ID=192.168.1.3:8500
+IMAGE_ID=$2
+CLUSTER_ID=$3
 LOOP=1
 
 #crete VM instance 
-nova boot --flavor m1-4cpu --image 11a735bf-cedc-47f2-a34b-850144a29182 --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
+nova boot --flavor m1.medium --image $IMAGE_ID --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
 
 #sleep 10
 
@@ -66,7 +67,7 @@ done
 #ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem -q ubuntu@$VM_IP ./configVM.sh $CLUSTER_ID >/dev/null 2>/dev/null
 echo "vm config done"
 
-#sleep 10
+sleep 20
 
 #federate node to swarm
 sudo docker -H tcp://$VM_IP:2375 run -d swarm join --advertise=$VM_IP:2375 --heartbeat=15s --ttl=20s consul://$CLUSTER_ID

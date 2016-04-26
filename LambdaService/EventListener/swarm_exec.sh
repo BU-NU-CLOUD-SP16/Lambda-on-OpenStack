@@ -8,7 +8,8 @@ FUNCTION_NAME=$1
 UUID=$2
 MEMORY=$3"m"
 #echo $FUNCTION_NAME
-MASTER="tcp://192.168.1.3:5001"
+HOST_IP=$(ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1 -d'/')
+MASTER=$HOST_IP":5001"
 
 echo "Exceuting docker swarm"
 
@@ -36,7 +37,7 @@ sudo docker -H $MASTER exec $CONT_ID apt-get install -y python
 echo "::::::Begining Code Execution:::::::"
 #sleeping to check the cluster management
 sleep 10
-OUT=sudo docker -H $MASTER exec $CONT_ID python /home/code/$FUNCTION_NAME > ./log/$FUNCTION_NAME"_"$UUID".log"
+OUT=sudo docker -H $MASTER exec $CONT_ID timeout 60 python /home/code/$FUNCTION_NAME > ./log/$FUNCTION_NAME"_"$UUID".log"
 echo $OUT
 echo "::::::Log file copying to Master::::::"
 

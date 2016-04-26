@@ -7,11 +7,11 @@ class EventOrchestrator
 	def begin_queing(args, *varargs)
 		payload= create_payload(args, varargs)
 		eventSender = EventDispatcher.new()
-		eventSender.send_event(payload)
+		#eventSender.send_event(payload)
 		data = {}
 		p = '{
                             "event_data":{ "type":"FilexxxxCreate", "metadata_type":"filename", "filename":"test.py"},
-                            "user_name":"sushant",
+                            "user_name":"naomi",
                             "event_source":"S1"}'
                 data  = JSON.parse(p)
                 payload1 = data.to_s()
