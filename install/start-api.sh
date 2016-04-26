@@ -1,4 +1,5 @@
 !#/bin/sh
 
-./start-mongodb.sh &
-./start-sinatra.sh &
+./start-mongodb.sh
+cd /home/ubuntu/Lambda-On-OpenStack/UserInterface
+./start-sinatra.sh
