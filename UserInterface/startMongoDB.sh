@@ -1,1 +1,1 @@
-sudo mongod
+sudo service mongod start
