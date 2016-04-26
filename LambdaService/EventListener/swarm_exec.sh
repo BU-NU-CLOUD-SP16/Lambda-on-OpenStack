@@ -11,6 +11,8 @@ MEMORY=$3"m"
 HOST_IP=$(ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1 -d'/')
 MASTER=$HOST_IP":5001"
 
+KEY=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY") print a[2]}')
+
 echo "Exceuting docker swarm"
 
 #create container
@@ -27,7 +29,7 @@ CONT_NODE=$(sudo docker -H $MASTER inspect --format='{{json .Node.IP}}' $CONT_ID
 #copy function
 #codePath="/home/ubuntu/"+$FUNCTION_NAME 
 
-scp -i /home/ubuntu/my-key.pem /home/ubuntu/$FUNCTION_NAME ubuntu@$CONT_NODE:/home/ubuntu
+scp -i $KEY /home/ubuntu/$FUNCTION_NAME ubuntu@$CONT_NODE:/home/ubuntu
 
 #start the container
 sudo docker -H $MASTER start $CONT_ID

@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 
-print "GOt it"
+print "Output for the demo application of lambda on Openstack."

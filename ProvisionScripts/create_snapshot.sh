@@ -2,7 +2,15 @@
 
 LOOP=1
 VM_NAME='child-vm-0'
-nova boot --flavor m1.medium --image ubuntu-14.04 --key-name my-key --security-groups SSH,default --nic net-name=net-work $VM_NAME
+
+KEY=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY") print a[2]}')
+FLAVOR=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="FLAVOR") print a[2]}')
+IMAGE=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="IMAGE") print a[2]}')
+KEY_NAME=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY_NAME") print a[2]}')
+SEC_GROUPS=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="SEC_GROUPS") print a[2]}')
+NETWORK=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="NETWORK") print a[2]}')
+
+nova boot --flavor $FLAVOR --image $IMAGE --key-name $KEY_NAME --security-groups $SEC_GROUPS --nic net-name=$NETWORK $VM_NAME
 
 while [ $LOOP -gt 0 ] 
 do
@@ -38,13 +46,13 @@ fi
         sleep 2
 done
 
-scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ./Dockerfile ./init_config_child.sh ./configVM.sh ubuntu@$VM_IP:.
+scp -o StrictHostKeyChecking=no -i $KEY ./Dockerfile ./init_config_child.sh ./configVM.sh ubuntu@$VM_IP:.
 
 EXEC=$(echo $?)
 echo $EXEC
 while [ $EXEC -gt 0 ]
 do
-scp -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ./Dockerfile ./init_config_child.sh ./configVM.sh ubuntu@$VM_IP:.
+scp -o StrictHostKeyChecking=no -i $KEY ./Dockerfile ./init_config_child.sh ./configVM.sh ubuntu@$VM_IP:.
 EXEC=$(echo $?)
 echo "copy to vm:"$EXEC
 sleep 1
@@ -52,7 +60,7 @@ done
 
 echo "scp done"
 
-ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$VM_IP ./init_config_child.sh $CLUSTER_ID
+ssh -o StrictHostKeyChecking=no -i $KEY ubuntu@$VM_IP ./init_config_child.sh $CLUSTER_ID
 
 echo "ssh done"
 

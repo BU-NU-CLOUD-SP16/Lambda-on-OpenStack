@@ -10,6 +10,8 @@ declare -i EXEC=1
 declare -i LOOP=0
 
 echo "child::"$CHILD_VM_IP"::"
+
+KEY=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY") print a[2]}')
 #consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -node=agent-one -bind=192.168.1.94 -client=0.0.0.0 -config-dir /etc/consul.d
 
 
@@ -32,7 +34,7 @@ echo "Starting child docker daemon"
 while [ $EXEC -gt 0 ] && [ $LOOP -lt 5 ]
 do
 echo "******docker dameon*********"
-ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$CHILD_VM_IP sudo docker -H tcp://0.0.0.0:2375 -d &
+ssh -o StrictHostKeyChecking=no -i $KEY ubuntu@$CHILD_VM_IP sudo docker -H tcp://0.0.0.0:2375 -d &
 EXEC=$(echo $?)
 LOOP=$LOOP+1
 sleep 3
@@ -46,7 +48,7 @@ while [ $EXEC -gt 0 ] && [ $LOOP -lt 5 ]
 do
 sleep 5
 echo "running federation *********"
-ssh -o StrictHostKeyChecking=no -i /home/ubuntu/my-key.pem ubuntu@$CHILD_VM_IP sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$CHILD_VM_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
+ssh -o StrictHostKeyChecking=no -i $KEY ubuntu@$CHILD_VM_IP sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$CHILD_VM_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
 EXEC=$(echo $?)
 LOOP=$LOOP+1
 done
