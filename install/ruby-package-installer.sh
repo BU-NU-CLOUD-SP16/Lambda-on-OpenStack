@@ -1,14 +1,14 @@
 #!/bin/sh
 
-apt-get install python-software-properties
-apt-add-repository -y ppa:brightbox/ruby-ng
-apt-get update
-apt-get install -y ruby2.3
-apt-get install -y ruby2.3-dev
-apt-get install -y ruby-switch
+sudo apt-get install python-software-properties
+sudo apt-add-repository -y ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt-get install -y ruby2.3
+sudo apt-get install -y ruby2.3-dev
+sudo apt-get install -y ruby-switch
 
 #installing gems
-gem install bundler
+sudo gem install bundler
 #cat /home/ubuntu/Lambda-On-OpenStack/install/Gemfile | tr "\r" "\n" > /home/ubuntu/Lambda-On-OpenStack/install/Gemfile
-bundle install --path /home/ubuntu/Lambda-On-OpenStack/UserInterface/
-
+cd /home/ubuntu/Lambda-On-OpenStack/install
+bundle install

@@ -1,0 +1,69 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (1.2.8)
+    bson (4.1.0)
+    bundler-unload (1.0.2)
+    did_you_mean (1.0.0)
+    executable-hooks (1.3.2)
+    gem-wrappers (1.2.7)
+    haml (4.0.7)
+      tilt
+    io-console (0.4.5)
+    json (1.8.3)
+    minitest (5.8.4)
+    mongo (2.2.4)
+      bson (~> 4.0)
+    net-telnet (0.1.1)
+    power_assert (0.2.7)
+    psych (2.0.17)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rake (11.1.2)
+    rdoc (4.2.2)
+      json (~> 1.4)
+    rubygems-bundler (1.4.4)
+      bundler-unload (>= 1.0.2)
+      executable-hooks (>= 1.3.2)
+    rvm (1.11.3.9)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    test-unit (3.1.8)
+      power_assert
+    tilt (2.0.2)
+    zip (2.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bigdecimal
+  bson
+  bundler-unload
+  did_you_mean
+  executable-hooks
+  gem-wrappers
+  haml
+  io-console
+  json
+  minitest
+  mongo
+  net-telnet
+  power_assert
+  psych
+  rack
+  rack-protection
+  rake
+  rdoc
+  rubygems-bundler
+  rvm
+  sinatra
+  test-unit
+  tilt
+  zip
+
+BUNDLED WITH
+   1.11.2
