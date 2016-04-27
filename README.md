@@ -1,17 +1,15 @@
 #Lambda on Openstack or Function as a Service
 
 Contents:
-1. Project outline
-2. Scope
-3. Workflow
-3. Components
-4. Setup
+ 1. Project outline
+ 2. Scope
+ 3. Workflow
+ 4. Components
+ 5. Setup
 
 1. Project Outline: 
 Lambda on openstack is a serverless compute service that allows a user to uplaod a function in the Openstack cloud environment which can be invoked in response to an event. A user can do this without getting into provisioning, configuration, and maintainance of virtual machines on the cloud. The resources are provisioned and the code is executed on an event and the resources are released as soon as execution ends. It auto-scales for every service as they are stateless and every request is treated as a new request irrespective of the soruce of the event. The events are received on queue service that is installed along with lambda Service installation. A listener in the service listens to this queue and invokes a corresponding function based on event data.
-
 This allows users to focus on development rather than managing the environment.
-  
 This project focuses to provide an execution platform for one-way fucntions executed on events that are pulled from a repository or a stream asynchronously on [Masachusetts Open Cloud (MOC)](https://rc.fas.harvard.edu/partnerships/massachusetts-open-cloud-moc/) with a vision to provide a synchronous two-way capabilities and package it to be deployed on any cloud that works on [OpenStack](https://www.openstack.org/).
 
 2. Scope:
