@@ -10,6 +10,8 @@ echo "installed docker"
 
 sudo docker build -t ub-python .
 
+sudo docker pull swarm
+
 sudo stop docker
 
 sudo rm -f /etc/docker/key.json
