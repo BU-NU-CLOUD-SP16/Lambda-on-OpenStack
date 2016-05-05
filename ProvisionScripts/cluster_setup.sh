@@ -23,7 +23,7 @@ sleep 15
 
 #create swarm manager.
 echo "Creating master"
-sudo docker -H tcp://$MASTER_SERVER_IP:2375 run -d -p 5001:2375 swarm manage --strategy=binpack --advertise=$MASTER_SERVER_IP:2375 consul://$MASTER_SERVER_IP:8500
+sudo docker -H tcp://$MASTER_SERVER_IP:2375 run -d -p 5001:2375 swarm:1.1.1 manage --strategy=binpack --advertise=$MASTER_SERVER_IP:2375 consul://$MASTER_SERVER_IP:8500
 
 
 #join the newly created vm to the cluster
@@ -48,7 +48,7 @@ while [ $EXEC -gt 0 ] && [ $LOOP -lt 5 ]
 do
 sleep 5
 echo "running federation *********"
-ssh -o StrictHostKeyChecking=no -i $KEY ubuntu@$CHILD_VM_IP sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm join --advertise=$CHILD_VM_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
+ssh -o StrictHostKeyChecking=no -i $KEY ubuntu@$CHILD_VM_IP sudo docker -H tcp://$CHILD_VM_IP:2375 run -d swarm:1.1.1 join --advertise=$CHILD_VM_IP:2375 --heartbeat=15s --ttl=20s consul://$MASTER_SERVER_IP:8500
 EXEC=$(echo $?)
 LOOP=$LOOP+1
 done

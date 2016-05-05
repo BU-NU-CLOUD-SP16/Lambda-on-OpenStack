@@ -72,7 +72,7 @@ else
 		PROVISION=$PROVISION+1
 		echo "VM_ID::"$VM_ID
 		VM_ID=$VM_ID+1
-		
+		sleep 12
 	fi 
 fi
 #fi

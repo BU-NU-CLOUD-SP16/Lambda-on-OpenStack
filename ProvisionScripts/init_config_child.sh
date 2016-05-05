@@ -10,7 +10,7 @@ echo "installed docker"
 
 sudo docker build -t ub-python .
 
-sudo docker pull swarm
+sudo docker pull swarm:1.1.1
 
 sudo stop docker
 

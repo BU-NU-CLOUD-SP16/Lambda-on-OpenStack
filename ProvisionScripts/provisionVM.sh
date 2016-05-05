@@ -10,12 +10,15 @@ LOOP=1
 
 KEY=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY") print a[2]}')
 FLAVOR=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="FLAVOR") print a[2]}')
-IMAGE=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="IMAGE") print a[2]}')
+#IMAGE=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="IMAGE") print a[2]}')
+IMAGE_ID=$(nova image-list | awk '{if (match($4,"ub-doc")) {id=$2}} END{print id}')
 KEY_NAME=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="KEY_NAME") print a[2]}')
 SEC_GROUPS=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="SEC_GROUPS") print a[2]}')
 NETWORK=$(cat setup.config | awk '{split($0,a,"="); if(a[1]=="NETWORK") print a[2]}')
 
-nova boot --flavor $FLAVOR --image $IMAGE --key-name $KEY_NAME --security-groups $SEC_GROUPS --nic net-name=$NETWORK $VM_NAME
+echo "created from Image with ID:"
+echo $IMAGE_ID
+nova boot --flavor $FLAVOR --image $IMAGE_ID --key-name $KEY_NAME --security-groups $SEC_GROUPS --nic net-name=$NETWORK $VM_NAME
  
 
 #sleep 10
@@ -75,9 +78,12 @@ done
 echo "vm config done"
 
 sleep 20
-
+echo "cluster_id"
+echo $CLUSTER_ID
+echo "new vm IP"
+echo $VM_IP
 #federate node to swarm
-sudo docker -H tcp://$VM_IP:2375 run -d swarm join --advertise=$VM_IP:2375 --heartbeat=15s --ttl=20s consul://$CLUSTER_ID
+sudo docker -H tcp://$VM_IP:2375 run -d swarm:1.1.1 join --advertise=$VM_IP:2375 --heartbeat=15s --ttl=20s consul://$CLUSTER_ID
 
 echo "node added to swarm"
 
